@@ -1,0 +1,114 @@
+﻿@inject NavigationManager NavigationManager
+
+<div class="container">
+    <div class="item">
+        <Animate Animation="Animations.SlideDown" Duration="TimeSpan.FromSeconds(2)">
+            <MatButton Icon="dashboard" OnClick="@OnBowseClick" Label="Browse"></MatButton>
+        </Animate>
+    </div>
+    <div class="item">
+        <Animate Animation="Animations.SlideDown" Duration="TimeSpan.FromSeconds(2)">
+            <MatButton Icon="horizontal_split" OnClick="@OnCrushClick" Label="Crush"></MatButton>
+        </Animate>
+    </div>
+    <div class="item">
+        <Animate Animation="Animations.SlideDown" Duration="TimeSpan.FromSeconds(2)">
+            <MatButton Icon="horizontal_split" OnClick="@OnChatClick" Label="Chat"></MatButton>
+        </Animate>
+    </div>
+    <div class="item">
+        <Animate Animation="Animations.SlideDown" Duration="TimeSpan.FromSeconds(2)">
+            <MatButton Icon="horizontal_split" OnClick="@OnQuizClick" Label="Quiz"></MatButton>
+        </Animate>
+    </div>
+    <div class="item">
+        <Animate Animation="Animations.SlideDown" Duration="TimeSpan.FromSeconds(2)">
+            <MatButton Icon="horizontal_split" OnClick="@OnPlayClick" Label="Play"></MatButton>
+        </Animate>
+    </div>
+    <div class="item">
+        <Animate Animation="Animations.SlideDown" Duration="TimeSpan.FromSeconds(2)">
+            <MatButton Icon="horizontal_split" OnClick="@OnStokoClick" Label="Stoko"></MatButton>
+        </Animate>
+    </div>
+    <div class="item">
+        <Animate Animation="Animations.SlideDown" Duration="TimeSpan.FromSeconds(2)">
+            <MatButton Icon="horizontal_split" OnClick="@OnDateClick" Label="Date"></MatButton>
+        </Animate>
+    </div>
+    <div class="item">
+        <Animate Animation="Animations.SlideDown" Duration="TimeSpan.FromSeconds(2)">
+            <MatButton Icon="horizontal_split" OnClick="@OnBangClick" Label="Bang"></MatButton>
+        </Animate>
+    </div>
+
+    @*<div class="item">
+            <Animate Animation="Animations.SlideDown" Duration="TimeSpan.FromSeconds(2)">
+                <MatButton Icon="settings_input_component" OnClick="@OnAboutClick" Label="About "></MatButton>
+            </Animate>
+        </div>*@
+</div>
+
+
+
+<style>
+    .container {
+        display: flex;
+        flex-flow: row wrap;
+        justify-content: space-between;
+        align-content: space-around;
+    }
+
+    .item {
+        margin: 20px;
+    }
+
+    a {
+    }
+</style>
+
+@code {
+    public void OnBowseClick()
+    {
+        NavigationManager.NavigateTo("browse");
+    }
+    public void OnCrushClick()
+    {
+        NavigationManager.NavigateTo("crush");
+    }
+
+    public void OnChatClick()
+    {
+        NavigationManager.NavigateTo("chat");
+    }
+    public void OnQuizClick()
+    {
+        NavigationManager.NavigateTo("quiz");
+    }
+    public void OnPlayClick()
+    {
+        NavigationManager.NavigateTo("play");
+    }
+    public void OnStokoClick()
+    {
+        NavigationManager.NavigateTo("stoko");
+    }
+    public void OnDateClick()
+    {
+        NavigationManager.NavigateTo("date");
+    }
+    public void OnBangClick()
+    {
+        NavigationManager.NavigateTo("bang");
+    }
+
+    public void OnContactUsClick()
+    {
+        NavigationManager.NavigateTo("contact-us");
+    }
+
+    public void OnAboutClick()
+    {
+        NavigationManager.NavigateTo("about-us");
+    }
+}
