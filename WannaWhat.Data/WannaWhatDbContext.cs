@@ -26,6 +26,18 @@ namespace WannaWhat.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+
+            builder.Entity<UserInterest>()
+                   .HasKey(ui =>  new { ui.UserId, ui.InterestId } );
+
+            builder.Entity<UserInterest>()
+                   .HasOne<WannaWhatUser>(i => i.User)
+                   .WithMany(u => u.UserInerests);
+
+            builder.Entity<UserInterest>()
+                   .HasOne<Interest>(ui => ui.Interest)
+                   .WithMany(i => i.UserInterests);
+
             //builder.Entity<WannaWhatUser>()
             //       .HasOne(u => u.UserInfo)
             //       .WithOne(x => x.User)
