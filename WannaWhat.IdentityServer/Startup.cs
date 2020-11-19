@@ -3,7 +3,6 @@
 
 
 using IdentityServer4;
-using WannaWhat.IdentityServer.Data;
 using WannaWhat.IdentityServer.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,6 +11,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WannaWhat.IdentityServer.Services;
+using WannaWhat.Core.Interfaces;
+using IdentityServer4.Services;
+using WannaWhat.Data;
+using WannaWhat.Core.Models;
+using System;
+using System.Reflection;
 
 namespace WannaWhat.IdentityServer
 {
@@ -19,6 +25,9 @@ namespace WannaWhat.IdentityServer
     {
         public IWebHostEnvironment Environment { get; }
         public IConfiguration Configuration { get; }
+
+        public string ConnectionString => Configuration.GetConnectionString("DefaultConnection");
+
 
         public Startup(IWebHostEnvironment environment, IConfiguration configuration)
         {
@@ -30,46 +39,88 @@ namespace WannaWhat.IdentityServer
         {
             services.AddControllersWithViews();
 
-            services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlite(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<WannaWhatDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+            services.AddIdentity<WannaWhatUser, IdentityRole>()
+                .AddEntityFrameworkStores<WannaWhatDbContext>()
                 .AddDefaultTokenProviders();
 
-            var builder = services.AddIdentityServer(options =>
+            //var builder = services.AddIdentityServer(options =>
+            //{
+            //    options.Events.RaiseErrorEvents = true;
+            //    options.Events.RaiseInformationEvents = true;
+            //    options.Events.RaiseFailureEvents = true;
+            //    options.Events.RaiseSuccessEvents = true;
+
+            //    // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
+            //    options.EmitStaticAudienceClaim = true;
+            //})
+            //    .AddInMemoryIdentityResources(Config.IdentityResources)
+            //    .AddInMemoryApiScopes(Config.ApiScopes)
+            //    .AddInMemoryClients(Config.Clients)
+            //    .AddAspNetIdentity<WannaWhatUser>();
+
+
+
+            // not recommended for production - you need to store your key material somewhere secure
+            //builder.AddDeveloperSigningCredential();
+
+            var migrationsAssembly = typeof(WannaWhatDbContext).GetTypeInfo().Assembly.GetName().Name;
+
+            services.AddIdentityServer(options =>
             {
                 options.Events.RaiseErrorEvents = true;
                 options.Events.RaiseInformationEvents = true;
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
-
-                // see https://identityserver4.readthedocs.io/en/latest/topics/resources.html
-                options.EmitStaticAudienceClaim = true;
+                options.UserInteraction.LoginUrl = "Identity/Account/Login";
+                options.UserInteraction.LogoutUrl = "Identity/Account/Logout";
+                options.Authentication = new IdentityServer4.Configuration.AuthenticationOptions()
+                {
+                    CookieLifetime = TimeSpan.FromHours(10), // ID server cookie timeout set to 10 hours
+                    CookieSlidingExpiration = true
+                };
             })
-                .AddInMemoryIdentityResources(Config.IdentityResources)
-                .AddInMemoryApiScopes(Config.ApiScopes)
-                .AddInMemoryClients(Config.Clients)
-                .AddAspNetIdentity<ApplicationUser>();
-
-            // not recommended for production - you need to store your key material somewhere secure
-            builder.AddDeveloperSigningCredential();
+            .AddConfigurationStore(options =>
+            {
+                options.ConfigureDbContext = b => b.UseSqlServer(ConnectionString, sql => sql.MigrationsAssembly(migrationsAssembly));
+            })
+            .AddOperationalStore(options =>
+            {
+                options.ConfigureDbContext = b => b.UseSqlServer(ConnectionString, sql => sql.MigrationsAssembly(migrationsAssembly));
+                options.EnableTokenCleanup = true;
+            })
+            .AddAspNetIdentity<WannaWhatUser>()
+            .AddDeveloperSigningCredential();
 
             services.AddAuthentication()
                 .AddGoogle(options =>
                 {
                     options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
-                    
+
                     // register your IdentityServer with Google at https://console.developers.google.com
                     // enable the Google+ API
                     // set the redirect URI to https://localhost:5001/signin-google
-                    options.ClientId = "copy client ID from Google here";
-                    options.ClientSecret = "copy client secret from Google here";
+                    options.ClientId = "923984788102-5co1eqq3ehl6ju5qss1pp0jjg9vjao8v.apps.googleusercontent.com";
+                    options.ClientSecret = "A5JU6Ms43lpAsGjProvR3s9G";
                 });
+            services.AddScoped<IRegistrationHelper, RegistrationService>();
+            services.AddScoped<IProfileService, WannaWhatProfileService>();
+
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
         }
 
         public void Configure(IApplicationBuilder app)
         {
+
+            app.UseCors("MyPolicy");
+
             if (Environment.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -6,12 +6,13 @@ using System;
 using System.Linq;
 using System.Security.Claims;
 using IdentityModel;
-using WannaWhat.IdentityServer.Data;
 using WannaWhat.IdentityServer.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Serilog;
+using WannaWhat.Data;
+using WannaWhat.Core.Models;
 
 namespace WannaWhat.IdentityServer
 {
@@ -21,28 +22,28 @@ namespace WannaWhat.IdentityServer
         {
             var services = new ServiceCollection();
             services.AddLogging();
-            services.AddDbContext<ApplicationDbContext>(options =>
-               options.UseSqlite(connectionString));
+            services.AddDbContext<WannaWhatDbContext>(options =>
+               options.UseSqlServer(connectionString));
 
-            services.AddIdentity<ApplicationUser, IdentityRole>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
+            services.AddIdentity<WannaWhatUser, IdentityRole>()
+                .AddEntityFrameworkStores<WannaWhatDbContext>()
                 .AddDefaultTokenProviders();
 
             using (var serviceProvider = services.BuildServiceProvider())
             {
                 using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
                 {
-                    var context = scope.ServiceProvider.GetService<ApplicationDbContext>();
+                    var context = scope.ServiceProvider.GetService<WannaWhatDbContext>();
                     context.Database.Migrate();
 
-                    var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+                    var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<WannaWhatUser>>();
                     var alice = userMgr.FindByNameAsync("alice").Result;
                     if (alice == null)
                     {
-                        alice = new ApplicationUser
+                        alice = new WannaWhatUser
                         {
                             UserName = "alice",
-                            Email = "AliceSmith@email.com",
+                            Email = "AliceSmith@WanaWhat.co.za",
                             EmailConfirmed = true,
                         };
                         var result = userMgr.CreateAsync(alice, "Pass123$").Result;
@@ -56,6 +57,10 @@ namespace WannaWhat.IdentityServer
                             new Claim(JwtClaimTypes.GivenName, "Alice"),
                             new Claim(JwtClaimTypes.FamilyName, "Smith"),
                             new Claim(JwtClaimTypes.WebSite, "http://alice.com"),
+                            new Claim("location", "No where"),
+                            new Claim("userApi.read", "true"),
+                            new Claim("userApi.write", "false"),
+                            new Claim("userApi.delete", "false"),
                         }).Result;
                         if (!result.Succeeded)
                         {
@@ -71,10 +76,10 @@ namespace WannaWhat.IdentityServer
                     var bob = userMgr.FindByNameAsync("bob").Result;
                     if (bob == null)
                     {
-                        bob = new ApplicationUser
+                        bob = new WannaWhatUser
                         {
                             UserName = "bob",
-                            Email = "BobSmith@email.com",
+                            Email = "BobSmith@WanaWhat.co.za",
                             EmailConfirmed = true
                         };
                         var result = userMgr.CreateAsync(bob, "Pass123$").Result;
@@ -88,7 +93,12 @@ namespace WannaWhat.IdentityServer
                             new Claim(JwtClaimTypes.GivenName, "Bob"),
                             new Claim(JwtClaimTypes.FamilyName, "Smith"),
                             new Claim(JwtClaimTypes.WebSite, "http://bob.com"),
-                            new Claim("location", "somewhere")
+                            new Claim("location", "somewhere"),
+                            new Claim("userApi.read", "true"),
+                            new Claim("userApi.write", "true"),
+                            new Claim("userApi.delete", "false"),
+
+
                         }).Result;
                         if (!result.Succeeded)
                         {
@@ -99,6 +109,44 @@ namespace WannaWhat.IdentityServer
                     else
                     {
                         Log.Debug("bob already exists");
+                    }
+
+                    var admin = userMgr.FindByNameAsync("admin").Result;
+                    if (admin == null)
+                    {
+                        bob = new WannaWhatUser
+                        {
+                            UserName = "admin",
+                            Email = "Admin@WanaWhat.co.za",
+                            EmailConfirmed = true
+                        };
+                        var result = userMgr.CreateAsync(bob, "Pass123$").Result;
+                        if (!result.Succeeded)
+                        {
+                            throw new Exception(result.Errors.First().Description);
+                        }
+
+                        result = userMgr.AddClaimsAsync(bob, new Claim[]{
+                            new Claim(JwtClaimTypes.Name, "Bob Smith"),
+                            new Claim(JwtClaimTypes.GivenName, "Bob"),
+                            new Claim(JwtClaimTypes.FamilyName, "Smith"),
+                            new Claim(JwtClaimTypes.WebSite, "http://bob.com"),
+                            new Claim("location", "EVERYWHERE"),
+                            new Claim("userApi.read", "true"),
+                            new Claim("userApi.write", "true"),
+                            new Claim("userApi.delete", "true"),
+
+
+                        }).Result;
+                        if (!result.Succeeded)
+                        {
+                            throw new Exception(result.Errors.First().Description);
+                        }
+                        Log.Debug("Admin created");
+                    }
+                    else
+                    {
+                        Log.Debug("Admin already exists");
                     }
                 }
             }

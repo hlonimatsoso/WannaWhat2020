@@ -52,7 +52,7 @@ namespace WannaWhat.IdentityServer
                     var connectionString = config.GetConnectionString("DefaultConnection");
                     SeedData.EnsureSeedData(connectionString);
                     Log.Information("Done seeding database.");
-                    return 0;
+                    //return 0;
                 }
 
                 Log.Information("Starting host...");
