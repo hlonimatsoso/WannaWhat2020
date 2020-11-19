@@ -14,7 +14,7 @@ namespace WannaWhat.Core.Models
 
         public List<UserInterest> UserInerests { get; set; }
 
-        //public List<UserPersonality> UserPersonalities { get; set; }
+        public List<UserPersonality> UserPersonalities { get; set; }
 
     }
 }

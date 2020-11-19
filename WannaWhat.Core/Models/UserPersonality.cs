@@ -12,7 +12,10 @@ namespace WannaWhat.Core.Models
         [ForeignKey("UserId")]
         public WannaWhatUser User { get; set; }
 
+
         public string PersonalityId { get; set; }
+
+        [ForeignKey("PersonalityId")]
 
         public Personality Personality { get; set; }
 

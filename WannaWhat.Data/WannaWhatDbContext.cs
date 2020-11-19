@@ -26,17 +26,23 @@ namespace WannaWhat.Data
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
-
+            // Set UserInterest composite PK
             builder.Entity<UserInterest>()
                    .HasKey(ui =>  new { ui.UserId, ui.InterestId } );
 
+            // WannaWhatUser has MANY Interests : Part 1
             builder.Entity<UserInterest>()
                    .HasOne<WannaWhatUser>(i => i.User)
                    .WithMany(u => u.UserInerests);
 
+            // WannaWhatUser has MANY Interests : Part 2
             builder.Entity<UserInterest>()
                    .HasOne<Interest>(ui => ui.Interest)
                    .WithMany(i => i.UserInterests);
+
+            // Set UserPersonality composite PK
+            builder.Entity<UserPersonality>()
+                   .HasKey(up => new { up.UserId, up.PersonalityId });
 
             //builder.Entity<WannaWhatUser>()
             //       .HasOne(u => u.UserInfo)
