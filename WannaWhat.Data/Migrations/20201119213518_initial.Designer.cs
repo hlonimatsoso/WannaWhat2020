@@ -10,8 +10,8 @@ using WannaWhat.Data;
 namespace WannaWhat.Data.Migrations
 {
     [DbContext(typeof(WannaWhatDbContext))]
-    [Migration("20201119213010_UserPersonality")]
-    partial class UserPersonality
+    [Migration("20201119213518_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
