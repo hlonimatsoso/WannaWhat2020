@@ -33,7 +33,7 @@ namespace WannaWhat.IdentityServer
 
         public static IEnumerable<ApiResource> Apis =>
             new ApiResource[]{
-            new ApiResource("userApi", "User API")
+            new ApiResource("userApi", "User API",new List<string>{"userApi.read","userApi.edit","userApi.delete" })
             };
 
         public static IEnumerable<Client> Clients =>

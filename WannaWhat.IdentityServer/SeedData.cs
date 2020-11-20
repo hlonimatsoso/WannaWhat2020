@@ -13,10 +13,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Serilog;
 using WannaWhat.Data;
 using WannaWhat.Core.Models;
+using Microsoft.AspNetCore.Builder;
+using IdentityServer4.EntityFramework.DbContexts;
+using IdentityServer4.EntityFramework.Mappers;
 
 namespace WannaWhat.IdentityServer
 {
-    public class SeedData
+    public static class SeedData
     {
         public static void EnsureSeedData(string connectionString)
         {
@@ -148,6 +151,52 @@ namespace WannaWhat.IdentityServer
                     {
                         Log.Debug("Admin already exists");
                     }
+                }
+            }
+        }
+
+        public static void InitializeDatabase(this IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
+
+                var context = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
+                context.Database.Migrate();
+                if (!context.Clients.Any())
+                {
+                    foreach (var client in Config.Clients)
+                    {
+                        context.Clients.Add(client.ToEntity());
+                    }
+                    context.SaveChanges();
+                }
+
+                if (!context.IdentityResources.Any())
+                {
+                    foreach (var resource in Config.IdentityResources)
+                    {
+                        context.IdentityResources.Add(resource.ToEntity());
+                    }
+                    context.SaveChanges();
+                }
+
+                if (!context.ApiResources.Any())
+                {
+                    foreach (var resource in Config.Apis)
+                    {
+                        context.ApiResources.Add(resource.ToEntity());
+                    }
+                    context.SaveChanges();
+                }
+
+                if (!context.ApiScopes.Any())
+                {
+                    foreach (var resource in Config.ApiScopes)
+                    {
+                        context.ApiScopes.Add(resource.ToEntity());
+                    }
+                    context.SaveChanges();
                 }
             }
         }

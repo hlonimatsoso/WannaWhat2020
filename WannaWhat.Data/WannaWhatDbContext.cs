@@ -18,9 +18,9 @@ namespace WannaWhat.Data
 
         public DbSet<UserInfo> UserInfo { get; set; }
 
-        //public DbSet<UserPersonality> UserPersonalities { get; set; }
+        public DbSet<UserPersonality> UserPersonalities { get; set; }
 
-        //public DbSet<UserInterest> UserInterests { get; set; }
+        public DbSet<UserInterest> UserInterests { get; set; }
 
 
 

@@ -204,7 +204,7 @@ namespace WannaWhat.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserInterest",
+                name: "UserInterests",
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
@@ -212,15 +212,15 @@ namespace WannaWhat.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserInterest", x => new { x.UserId, x.InterestId });
+                    table.PrimaryKey("PK_UserInterests", x => new { x.UserId, x.InterestId });
                     table.ForeignKey(
-                        name: "FK_UserInterest_Interest_InterestId",
+                        name: "FK_UserInterests_Interest_InterestId",
                         column: x => x.InterestId,
                         principalTable: "Interest",
                         principalColumn: "InterestId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserInterest_AspNetUsers_UserId",
+                        name: "FK_UserInterests_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -228,7 +228,7 @@ namespace WannaWhat.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserPersonality",
+                name: "UserPersonalities",
                 columns: table => new
                 {
                     UserId = table.Column<string>(nullable: false),
@@ -236,15 +236,15 @@ namespace WannaWhat.Data.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserPersonality", x => new { x.UserId, x.PersonalityId });
+                    table.PrimaryKey("PK_UserPersonalities", x => new { x.UserId, x.PersonalityId });
                     table.ForeignKey(
-                        name: "FK_UserPersonality_Personality_PersonalityId",
+                        name: "FK_UserPersonalities_Personality_PersonalityId",
                         column: x => x.PersonalityId,
                         principalTable: "Personality",
                         principalColumn: "PersonalityId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserPersonality_AspNetUsers_UserId",
+                        name: "FK_UserPersonalities_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
@@ -291,13 +291,13 @@ namespace WannaWhat.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserInterest_InterestId",
-                table: "UserInterest",
+                name: "IX_UserInterests_InterestId",
+                table: "UserInterests",
                 column: "InterestId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserPersonality_PersonalityId",
-                table: "UserPersonality",
+                name: "IX_UserPersonalities_PersonalityId",
+                table: "UserPersonalities",
                 column: "PersonalityId");
         }
 
@@ -322,10 +322,10 @@ namespace WannaWhat.Data.Migrations
                 name: "UserInfo");
 
             migrationBuilder.DropTable(
-                name: "UserInterest");
+                name: "UserInterests");
 
             migrationBuilder.DropTable(
-                name: "UserPersonality");
+                name: "UserPersonalities");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

@@ -226,7 +226,7 @@ namespace WannaWhat.Data.Migrations
 
                     b.HasIndex("InterestId");
 
-                    b.ToTable("UserInterest");
+                    b.ToTable("UserInterests");
                 });
 
             modelBuilder.Entity("WannaWhat.Core.Models.UserPersonality", b =>
@@ -241,7 +241,7 @@ namespace WannaWhat.Data.Migrations
 
                     b.HasIndex("PersonalityId");
 
-                    b.ToTable("UserPersonality");
+                    b.ToTable("UserPersonalities");
                 });
 
             modelBuilder.Entity("WannaWhat.Core.Models.WannaWhatUser", b =>

@@ -110,16 +110,16 @@ namespace WannaWhat.IdentityServer
 
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
-                builder.AllowAnyOrigin()
+                builder.WithOrigins("https://localhost:5001")
                        .AllowAnyMethod()
-                       .AllowAnyHeader();
+                       .AllowAnyHeader()
+                       .AllowCredentials();
             }));
         }
 
         public void Configure(IApplicationBuilder app)
         {
-
-            app.UseCors("MyPolicy");
+            
 
             if (Environment.IsDevelopment())
             {
@@ -128,6 +128,7 @@ namespace WannaWhat.IdentityServer
             }
 
             app.UseStaticFiles();
+            app.UseCors("MyPolicy");
 
             app.UseRouting();
             app.UseIdentityServer();
@@ -136,6 +137,14 @@ namespace WannaWhat.IdentityServer
             {
                 endpoints.MapDefaultControllerRoute();
             });
+
+            // this will do the initial DB population
+            bool seed = Configuration.GetSection("Data").GetValue<bool>("Seed");
+            if (seed)
+                app.InitializeDatabase();
+
         }
+
+
     }
 }
