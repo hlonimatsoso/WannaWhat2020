@@ -74,11 +74,11 @@ namespace WannaWhat.IdentityServer
                 options.Events.RaiseInformationEvents = true;
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
-                options.UserInteraction.LoginUrl = "Identity/Account/Login";
-                options.UserInteraction.LogoutUrl = "Identity/Account/Logout";
+                options.UserInteraction.LoginUrl = "/Account/Login";
+                options.UserInteraction.LogoutUrl = "/Account/Logout";
                 options.Authentication = new IdentityServer4.Configuration.AuthenticationOptions()
                 {
-                    CookieLifetime = TimeSpan.FromHours(10), // ID server cookie timeout set to 10 hours
+                    CookieLifetime = TimeSpan.FromHours(10), // ID server cookie timeout set to 10 hoursb
                     CookieSlidingExpiration = true
                 };
             })
@@ -108,13 +108,13 @@ namespace WannaWhat.IdentityServer
             services.AddScoped<IRegistrationHelper, RegistrationService>();
             services.AddScoped<IProfileService, WannaWhatProfileService>();
 
-            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
-            {
-                builder.WithOrigins("https://localhost:5001")
-                       .AllowAnyMethod()
-                       .AllowAnyHeader()
-                       .AllowCredentials();
-            }));
+            //services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            //{
+            //    builder.WithOrigins("https://localhost:5001")
+            //           .AllowAnyMethod()
+            //           .AllowAnyHeader()
+            //           .AllowCredentials();
+            //}));
         }
 
         public void Configure(IApplicationBuilder app)
@@ -128,7 +128,7 @@ namespace WannaWhat.IdentityServer
             }
 
             app.UseStaticFiles();
-            app.UseCors("MyPolicy");
+            //app.UseCors("MyPolicy");
 
             app.UseRouting();
             app.UseIdentityServer();

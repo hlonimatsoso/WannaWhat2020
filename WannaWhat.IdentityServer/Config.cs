@@ -15,14 +15,16 @@ namespace WannaWhat.IdentityServer
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
                 new IdentityResources.Email(),
-                new IdentityResource("location",new List<string>{ "location"})
+                new IdentityResource("location",new List<string>{ "location"}),
+                new IdentityResource("test",new List<string>{ "test"})
+
                    };
 
         public static IEnumerable<ApiScope> ApiScopes =>
             new ApiScope[]
             {
-                new ApiScope("scope1"),
-                new ApiScope("scope2"),
+                new ApiScope("scope1",new string[]{ "scope1"}),
+                new ApiScope("scope2",new string[]{ "scope2"}),
                 new ApiScope("userApi",new List<string>{
                     "userApi.read",
                     "userApi.write",
@@ -46,7 +48,7 @@ namespace WannaWhat.IdentityServer
                     RequirePkce = true,
                     RequireClientSecret = false,
                     AllowedCorsOrigins = { "https://localhost:5001" },
-                    AllowedScopes = { "openid", "profile", "email","location", "userApi"},
+                    AllowedScopes = { "openid", "profile", "email","location","test"},
                     RedirectUris = { "https://localhost:5001/authentication/login-callback" },
                     PostLogoutRedirectUris = { "https://localhost:5001/" },
                     Enabled = true,

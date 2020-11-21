@@ -38,9 +38,13 @@ namespace WannaWhat.IdentityServer.Services
             // Add custom claims in token here based on user properties or any other source
             claims.Add(new Claim("is_active", user.IsActive.ToString() ?? "false"));
      
-            claims.Add(new Claim("gender", userInfo.Gender.ToString()));
-            claims.Add(new Claim("dob", userInfo.DOB.ToString()));
-            claims.Add(new Claim("age", userInfo.Age.ToString()));
+            if(userInfo!=null)
+            {
+                claims.Add(new Claim("gender", userInfo.Gender.ToString()));
+                claims.Add(new Claim("dob", userInfo.DOB.ToString()));
+                claims.Add(new Claim("age", userInfo.Age.ToString()));
+
+            }
 
 
 

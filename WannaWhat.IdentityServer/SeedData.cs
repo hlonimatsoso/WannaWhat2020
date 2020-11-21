@@ -163,6 +163,10 @@ namespace WannaWhat.IdentityServer
 
                 var context = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
                 context.Database.Migrate();
+
+                serviceScope.ServiceProvider.GetRequiredService<WannaWhatDbContext>().Database.Migrate();
+
+
                 if (!context.Clients.Any())
                 {
                     foreach (var client in Config.Clients)
@@ -189,6 +193,8 @@ namespace WannaWhat.IdentityServer
                     }
                     context.SaveChanges();
                 }
+
+                
 
                 if (!context.ApiScopes.Any())
                 {
