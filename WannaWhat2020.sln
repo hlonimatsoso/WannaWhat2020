@@ -5,13 +5,13 @@ VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WannaWhat.IdentityServer", "WannaWhat.IdentityServer\WannaWhat.IdentityServer.csproj", "{B62B147B-ACA9-47DA-B616-97790A5320FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WannaWhat.App", "WannaWhat.App\WannaWhat.App.csproj", "{752A97AF-AF53-47CC-BAC1-4F71944800C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WannaWhat.App", "WannaWhat.App\WannaWhat.App.csproj", "{752A97AF-AF53-47CC-BAC1-4F71944800C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WannaWhat.UserApi", "WannaWhat.UserApi\WannaWhat.UserApi.csproj", "{6F2749FB-A944-4FEC-9F70-EEE5F9A87EAC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WannaWhat.UserApi", "WannaWhat.UserApi\WannaWhat.UserApi.csproj", "{6F2749FB-A944-4FEC-9F70-EEE5F9A87EAC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WannaWhat.Core", "WannaWhat.Core\WannaWhat.Core.csproj", "{2FCD1FC3-A9AA-4C00-9522-05056402E63C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WannaWhat.Core", "WannaWhat.Core\WannaWhat.Core.csproj", "{2FCD1FC3-A9AA-4C00-9522-05056402E63C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WannaWhat.Data", "WannaWhat.Data\WannaWhat.Data.csproj", "{EA33B4B4-F2CD-429A-889F-6530C2439A74}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WannaWhat.Data", "WannaWhat.Data\WannaWhat.Data.csproj", "{EA33B4B4-F2CD-429A-889F-6530C2439A74}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

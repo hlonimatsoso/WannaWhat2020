@@ -15,6 +15,9 @@ namespace WannaWhat.IdentityServer
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile(),
                 new IdentityResources.Email(),
+                new IdentityResource("userInfo",new List<string>{ "gender", "age"}),
+                new IdentityResource("interests",new List<string>{ "boys","girls", "indoors", "outdoors", "sports","boardGames","videoGames",""}),
+                new IdentityResource("personality",new List<string>{ "shy","quiet","friednly","rude","outSpoken","arrogant","confident","loud","introvert","extrovert"}),
                 new IdentityResource("location",new List<string>{ "location"}),
                 new IdentityResource("test",new List<string>{ "test"})
 
@@ -28,14 +31,28 @@ namespace WannaWhat.IdentityServer
                 new ApiScope("userApi",new List<string>{
                     "userApi.read",
                     "userApi.write",
-                    "userApi.delete",
-                }),
+                    "userApi.delete"}),
+                new ApiScope("configApi",new List<string>{
+                    "configApi.read",
+                    "configApi.write",
+                    "configApi.delete"
+                })
 
             };
 
         public static IEnumerable<ApiResource> Apis =>
             new ApiResource[]{
+
             new ApiResource("userApi", "User API",new List<string>{"userApi.read","userApi.edit","userApi.delete" })
+            {
+            Scopes = new List<string>{"userApi","scope1", "scope2" }
+            },
+            new ApiResource("configApi", "Configuration API",new List<string>{"configApi.read", "configApi.edit", "configApi.delete","scope2" })
+            {
+            Scopes = new List<string>{"configApi", "scope2" }
+
+            }
+
             };
 
         public static IEnumerable<Client> Clients =>
@@ -48,7 +65,7 @@ namespace WannaWhat.IdentityServer
                     RequirePkce = true,
                     RequireClientSecret = false,
                     AllowedCorsOrigins = { "https://localhost:5001" },
-                    AllowedScopes = { "openid", "profile", "email","location","test"},
+                    AllowedScopes = { "openid", "profile", "email","userInfo","interests","personality","userApi","configApi","location","test","scope1","scope2"},
                     RedirectUris = { "https://localhost:5001/authentication/login-callback" },
                     PostLogoutRedirectUris = { "https://localhost:5001/" },
                     Enabled = true,

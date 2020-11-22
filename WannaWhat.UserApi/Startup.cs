@@ -33,12 +33,12 @@ namespace WannaWhat.UserApi
                         options.Authority = "https://localhost:5000";
                         options.Audience = "userApi";
                     });
-            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
-            {
-                builder.AllowAnyOrigin()
-                       .AllowAnyMethod()
-                       .AllowAnyHeader();
-            }));
+            //services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            //{
+            //    builder.AllowAnyOrigin()
+            //           .AllowAnyMethod()
+            //           .AllowAnyHeader();
+            //}));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,7 +49,7 @@ namespace WannaWhat.UserApi
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseCors("MyPolicy");
+            //app.UseCors("MyPolicy");
 
             app.UseHttpsRedirection();
 

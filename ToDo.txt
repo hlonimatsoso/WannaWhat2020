@@ -1,0 +1,97 @@
+Wanna What TO DO List
+
+
+* ID Server
+	> Logging
+	> Finalize migration
+	> Finalize seeding
+	> Finalize execution order
+	> Create FaceBook App
+	> Drop Boostrap & adopt material design
+
+
+
+* App
+	> Logging
+	> Decide on colours
+	> Create & use a material design Theme Switcher
+	** PWA
+		> Cache App Shell
+		> Enable Offline
+		> Enhance offline stratergies
+		> PWA assets (icons & images)
+	** Registration
+		> Save Interests
+		> Save User Info
+		> Save Personality
+		
+	** Login
+		> View profile page
+		
+	** API Clients
+		> Create base client
+		> Create User Client
+		> Create Config Client
+	
+	** Config Portal
+		> Manage Users
+		> User Info
+		> User Interests
+		> User ...
+		> User Personality
+		> User Misc Details
+		
+	** Admin Portal
+		> Interests
+		> Personality
+		> Hobbies
+		> Goals
+		> Looking For
+	** Pages
+		> Browse
+		> Crush
+		> Chat
+		> Quiz
+		> Play
+		> John Vuli Gate
+		> Date
+		> Bang
+		> Wing Man Matsoso
+		
+		 
+
+		 
+		 
+* Api
+	> Logging
+	> Add Swagger
+	** Add Add CRUD
+		> Add repo
+		> Add service	
+		> Flush out methods
+
+
+
+
+
+* Moneytization
+	** Investigations
+		> Maximizing displaying of ads (eg: new add per CRUSH)
+		> Clean Adds
+		> Lekker Ads
+	** POC
+		> Clean Adds
+		> Lekker Ads
+	> Finalize setup
+	
+	
+	
+	
+	
+	
+* Deployment
+	> Put down stratergy
+	> Finalize SDLC
+	> Monitoring
+	
+	

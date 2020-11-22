@@ -64,6 +64,9 @@ namespace WannaWhat.IdentityServer
                             new Claim("userApi.read", "true"),
                             new Claim("userApi.write", "false"),
                             new Claim("userApi.delete", "false"),
+                            new Claim("configApi.read", "true"),
+                            new Claim("test", "ALICE TEST")
+
                         }).Result;
                         if (!result.Succeeded)
                         {
@@ -96,10 +99,15 @@ namespace WannaWhat.IdentityServer
                             new Claim(JwtClaimTypes.GivenName, "Bob"),
                             new Claim(JwtClaimTypes.FamilyName, "Smith"),
                             new Claim(JwtClaimTypes.WebSite, "http://bob.com"),
-                            new Claim("location", "somewhere"),
+                            new Claim("location", "Lurking Somewhere"),
                             new Claim("userApi.read", "true"),
                             new Claim("userApi.write", "true"),
                             new Claim("userApi.delete", "false"),
+                            new Claim("configApi.read", "true"),
+                            new Claim("configApi.write", "true"),
+                            new Claim("scope2", "scope2"),
+                            new Claim("test", "BOBBY TEST")
+
 
 
                         }).Result;
@@ -130,15 +138,18 @@ namespace WannaWhat.IdentityServer
                         }
 
                         result = userMgr.AddClaimsAsync(bob, new Claim[]{
-                            new Claim(JwtClaimTypes.Name, "Bob Smith"),
-                            new Claim(JwtClaimTypes.GivenName, "Bob"),
-                            new Claim(JwtClaimTypes.FamilyName, "Smith"),
-                            new Claim(JwtClaimTypes.WebSite, "http://bob.com"),
+                            new Claim(JwtClaimTypes.Name, "Sox Masogisi"),
+                            new Claim(JwtClaimTypes.GivenName, "Sogis"),
+                            new Claim(JwtClaimTypes.FamilyName, "Masogisi"),
+                            new Claim(JwtClaimTypes.WebSite, "https://sox.com"),
                             new Claim("location", "EVERYWHERE"),
                             new Claim("userApi.read", "true"),
                             new Claim("userApi.write", "true"),
                             new Claim("userApi.delete", "true"),
-
+                            new Claim("configApi.read", "true"),
+                            new Claim("configApi.write", "true"),
+                            new Claim("configApi.delete", "true"),
+                            new Claim("test", "BOBBY TEST")
 
                         }).Result;
                         if (!result.Succeeded)
@@ -194,7 +205,7 @@ namespace WannaWhat.IdentityServer
                     context.SaveChanges();
                 }
 
-                
+
 
                 if (!context.ApiScopes.Any())
                 {

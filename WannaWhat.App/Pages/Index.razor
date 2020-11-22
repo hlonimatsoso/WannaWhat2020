@@ -15,6 +15,20 @@ Welcome to Kasi.
         @AccessToken
 </div>
 
+<div>
+    <AuthorizeView>
+        <Authorized>
+            <IdentityId></IdentityId>
+
+        </Authorized>
+        <NotAuthorized>
+            <div class="alert alert-warning" role="alert">
+                Everything requires you to <a href="/authentication/login">Log In</a> first.
+            </div>
+        </NotAuthorized>
+    </AuthorizeView>
+</div>
+
 @code{
     [Inject]
     IAccessTokenProvider TokenProvider { get; set; }
