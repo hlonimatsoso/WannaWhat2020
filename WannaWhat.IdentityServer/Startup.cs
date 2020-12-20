@@ -139,9 +139,14 @@ namespace WannaWhat.IdentityServer
             });
 
             // this will do the initial DB population
+            app.MigrateDatabases();
+
+            app.InitializeDatabase();
+
             bool seed = Configuration.GetSection("Data").GetValue<bool>("Seed");
+            
             if (seed)
-                app.InitializeDatabase();
+                app.SeedDatabase();
 
         }
 

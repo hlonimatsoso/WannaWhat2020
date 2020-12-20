@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WannaWhat.Data.Migrations.PersistedGrantDb
 {
-    public partial class Intial : Migration
+    public partial class Persisted : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

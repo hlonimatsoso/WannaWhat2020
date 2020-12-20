@@ -21,41 +21,31 @@ namespace WannaWhat.IdentityServer
 {
     public static class SeedData
     {
-        public static void EnsureSeedData(string connectionString)
+    
+        public static void SeedDatabase(this IApplicationBuilder app)
         {
-            var services = new ServiceCollection();
-            services.AddLogging();
-            services.AddDbContext<WannaWhatDbContext>(options =>
-               options.UseSqlServer(connectionString));
-
-            services.AddIdentity<WannaWhatUser, IdentityRole>()
-                .AddEntityFrameworkStores<WannaWhatDbContext>()
-                .AddDefaultTokenProviders();
-
-            using (var serviceProvider = services.BuildServiceProvider())
+            using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
-                using (var scope = serviceProvider.GetRequiredService<IServiceScopeFactory>().CreateScope())
+                var context = scope.ServiceProvider.GetService<WannaWhatDbContext>();
+                context.Database.Migrate();
+
+                var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<WannaWhatUser>>();
+                var alice = userMgr.FindByNameAsync("alice").Result;
+                if (alice == null)
                 {
-                    var context = scope.ServiceProvider.GetService<WannaWhatDbContext>();
-                    context.Database.Migrate();
-
-                    var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<WannaWhatUser>>();
-                    var alice = userMgr.FindByNameAsync("alice").Result;
-                    if (alice == null)
+                    alice = new WannaWhatUser
                     {
-                        alice = new WannaWhatUser
-                        {
-                            UserName = "alice",
-                            Email = "AliceSmith@WanaWhat.co.za",
-                            EmailConfirmed = true,
-                        };
-                        var result = userMgr.CreateAsync(alice, "Pass123$").Result;
-                        if (!result.Succeeded)
-                        {
-                            throw new Exception(result.Errors.First().Description);
-                        }
+                        UserName = "alice",
+                        Email = "AliceSmith@WanaWhat.co.za",
+                        EmailConfirmed = true,
+                    };
+                    var result = userMgr.CreateAsync(alice, "Pass123$").Result;
+                    if (!result.Succeeded)
+                    {
+                        throw new Exception(result.Errors.First().Description);
+                    }
 
-                        result = userMgr.AddClaimsAsync(alice, new Claim[]{
+                    result = userMgr.AddClaimsAsync(alice, new Claim[]{
                             new Claim(JwtClaimTypes.Name, "Alice Smith"),
                             new Claim(JwtClaimTypes.GivenName, "Alice"),
                             new Claim(JwtClaimTypes.FamilyName, "Smith"),
@@ -68,38 +58,42 @@ namespace WannaWhat.IdentityServer
                             new Claim("test", "ALICE TEST")
 
                         }).Result;
-                        if (!result.Succeeded)
-                        {
-                            throw new Exception(result.Errors.First().Description);
-                        }
-                        Log.Debug("alice created");
-                    }
-                    else
+                    if (!result.Succeeded)
                     {
-                        Log.Debug("alice already exists");
+                        throw new Exception(result.Errors.First().Description);
+                    }
+                    Log.Debug("alice created");
+                }
+                else
+                {
+                    Log.Debug("alice already exists");
+                }
+
+                var bob = userMgr.FindByNameAsync("bob").Result;
+                if (bob == null)
+                {
+                    bob = new WannaWhatUser
+                    {
+                        UserName = "bob",
+                        Email = "BobSmith@WanaWhat.co.za",
+                        EmailConfirmed = true
+                    };
+                    var result = userMgr.CreateAsync(bob, "Pass123$").Result;
+                    if (!result.Succeeded)
+                    {
+                        throw new Exception(result.Errors.First().Description);
                     }
 
-                    var bob = userMgr.FindByNameAsync("bob").Result;
-                    if (bob == null)
-                    {
-                        bob = new WannaWhatUser
-                        {
-                            UserName = "bob",
-                            Email = "BobSmith@WanaWhat.co.za",
-                            EmailConfirmed = true
-                        };
-                        var result = userMgr.CreateAsync(bob, "Pass123$").Result;
-                        if (!result.Succeeded)
-                        {
-                            throw new Exception(result.Errors.First().Description);
-                        }
-
-                        result = userMgr.AddClaimsAsync(bob, new Claim[]{
+                    result = userMgr.AddClaimsAsync(bob, new Claim[]{
                             new Claim(JwtClaimTypes.Name, "Bob Smith"),
                             new Claim(JwtClaimTypes.GivenName, "Bob"),
                             new Claim(JwtClaimTypes.FamilyName, "Smith"),
                             new Claim(JwtClaimTypes.WebSite, "http://bob.com"),
                             new Claim("location", "Lurking Somewhere"),
+                            new Claim("girls", "true"),
+                            new Claim("outdoors", "false"),
+                            new Claim("shy", "true"),
+                            new Claim("rude", "false"),
                             new Claim("userApi.read", "true"),
                             new Claim("userApi.write", "true"),
                             new Claim("userApi.delete", "false"),
@@ -111,33 +105,33 @@ namespace WannaWhat.IdentityServer
 
 
                         }).Result;
-                        if (!result.Succeeded)
-                        {
-                            throw new Exception(result.Errors.First().Description);
-                        }
-                        Log.Debug("bob created");
-                    }
-                    else
+                    if (!result.Succeeded)
                     {
-                        Log.Debug("bob already exists");
+                        throw new Exception(result.Errors.First().Description);
+                    }
+                    Log.Debug("bob created");
+                }
+                else
+                {
+                    Log.Debug("bob already exists");
+                }
+
+                var admin = userMgr.FindByNameAsync("admin").Result;
+                if (admin == null)
+                {
+                    bob = new WannaWhatUser
+                    {
+                        UserName = "admin",
+                        Email = "Admin@WanaWhat.co.za",
+                        EmailConfirmed = true
+                    };
+                    var result = userMgr.CreateAsync(bob, "Pass123$").Result;
+                    if (!result.Succeeded)
+                    {
+                        throw new Exception(result.Errors.First().Description);
                     }
 
-                    var admin = userMgr.FindByNameAsync("admin").Result;
-                    if (admin == null)
-                    {
-                        bob = new WannaWhatUser
-                        {
-                            UserName = "admin",
-                            Email = "Admin@WanaWhat.co.za",
-                            EmailConfirmed = true
-                        };
-                        var result = userMgr.CreateAsync(bob, "Pass123$").Result;
-                        if (!result.Succeeded)
-                        {
-                            throw new Exception(result.Errors.First().Description);
-                        }
-
-                        result = userMgr.AddClaimsAsync(bob, new Claim[]{
+                    result = userMgr.AddClaimsAsync(bob, new Claim[]{
                             new Claim(JwtClaimTypes.Name, "Sox Masogisi"),
                             new Claim(JwtClaimTypes.GivenName, "Sogis"),
                             new Claim(JwtClaimTypes.FamilyName, "Masogisi"),
@@ -152,69 +146,103 @@ namespace WannaWhat.IdentityServer
                             new Claim("test", "BOBBY TEST")
 
                         }).Result;
-                        if (!result.Succeeded)
-                        {
-                            throw new Exception(result.Errors.First().Description);
-                        }
-                        Log.Debug("Admin created");
-                    }
-                    else
+                    if (!result.Succeeded)
                     {
-                        Log.Debug("Admin already exists");
+                        throw new Exception(result.Errors.First().Description);
                     }
+                    Log.Debug("Admin created");
+                }
+                else
+                {
+                    Log.Debug("Admin already exists");
                 }
             }
+
         }
+
+        
 
         public static void InitializeDatabase(this IApplicationBuilder app)
         {
             using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
             {
-                serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
+                Log.Warning("Initializing Database...");
 
                 var context = serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>();
                 context.Database.Migrate();
 
-                serviceScope.ServiceProvider.GetRequiredService<WannaWhatDbContext>().Database.Migrate();
-
+                Log.Warning("Adding IDS4 Clients...");
 
                 if (!context.Clients.Any())
                 {
                     foreach (var client in Config.Clients)
                     {
+                        Log.Warning($"... Adding {client.ClientId}");
+
                         context.Clients.Add(client.ToEntity());
                     }
                     context.SaveChanges();
                 }
 
+                Log.Warning("Adding IDS4 Identity Resources...");
+
+
                 if (!context.IdentityResources.Any())
                 {
                     foreach (var resource in Config.IdentityResources)
                     {
+                        Log.Warning($"... Adding {resource.Name}");
+
                         context.IdentityResources.Add(resource.ToEntity());
                     }
                     context.SaveChanges();
                 }
 
+
+                Log.Warning("Adding IDS4 API Resources...");
+
                 if (!context.ApiResources.Any())
                 {
                     foreach (var resource in Config.Apis)
                     {
+                        Log.Warning($"... Adding {resource.Name}");
+
                         context.ApiResources.Add(resource.ToEntity());
                     }
                     context.SaveChanges();
                 }
 
+                Log.Warning("Adding IDS4 API Scopse...");
 
 
                 if (!context.ApiScopes.Any())
                 {
                     foreach (var resource in Config.ApiScopes)
                     {
+                        Log.Warning($"... Adding {resource.Name}");
+
                         context.ApiScopes.Add(resource.ToEntity());
                     }
                     context.SaveChanges();
                 }
+            }
+        }
+
+        public static void MigrateDatabases(this IApplicationBuilder app)
+        {
+            using (var serviceScope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
+            {
+                Log.Warning("Migrating Wanna What...");
+                serviceScope.ServiceProvider.GetRequiredService<WannaWhatDbContext>().Database.Migrate();
+
+                Log.Warning("Migrating IDS Config...");
+                serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>().Database.Migrate();
+                
+                Log.Warning("Migrating Persisted Grants...");
+                serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
+
+          
+
             }
         }
     }

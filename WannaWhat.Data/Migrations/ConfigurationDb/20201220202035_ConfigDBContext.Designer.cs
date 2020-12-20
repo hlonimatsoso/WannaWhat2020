@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WannaWhat.Data.Migrations.ConfigurationDb
 {
     [DbContext(typeof(ConfigurationDbContext))]
-    [Migration("20201118081209_Intial")]
-    partial class Intial
+    [Migration("20201220202035_ConfigDBContext")]
+    partial class ConfigDBContext
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

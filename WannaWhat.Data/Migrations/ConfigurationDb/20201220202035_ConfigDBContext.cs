@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace WannaWhat.Data.Migrations.ConfigurationDb
 {
-    public partial class Intial : Migration
+    public partial class ConfigDBContext : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

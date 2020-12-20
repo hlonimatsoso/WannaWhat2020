@@ -37,26 +37,22 @@ namespace WannaWhat.IdentityServer
 
             try
             {
-                var seed = args.Contains("/seed");
-                if (seed)
-                {
-                    args = args.Except(new[] { "/seed" }).ToArray();
-                }
+                var cmdArgTest = args.Contains("/cmdArgTest");
+
+                if (cmdArgTest)
+                    args = args.Except(new[] { "/cmdArgTest" }).ToArray();
 
                 var host = CreateHostBuilder(args).Build();
 
-                if (seed)
-                {
-                    Log.Information("Seeding database...");
-                    var config = host.Services.GetRequiredService<IConfiguration>();
-                    var connectionString = config.GetConnectionString("DefaultConnection");
-                    SeedData.EnsureSeedData(connectionString);
-                    Log.Information("Done seeding database.");
-                    //return 0;
-                }
+                if (cmdArgTest)
+                    Program.ArgTestPositive(host);
+                else
+                    Program.ArgTestNegative(host);
 
-                Log.Information("Starting host...");
+                Log.Information("Starting host . . .");
+
                 host.Run();
+
                 return 0;
             }
             catch (Exception ex)
@@ -68,6 +64,21 @@ namespace WannaWhat.IdentityServer
             {
                 Log.CloseAndFlush();
             }
+        }
+
+        private static void ArgTestNegative(IHost host)
+        {
+            Log.Information("... Arg Test -- Negative -- : START ...");
+            Log.Information("... Arg Test -- Negative -- : END ...");
+        }
+
+        private static void ArgTestPositive(IHost host)
+        {
+            Log.Information("... Arg Test ++ Positive ++ : START ...");
+            //var config = host.Services.GetRequiredService<IConfiguration>();
+            //var connectionString = config.GetConnectionString("DefaultConnection");
+            //SeedData.EnsureSeedData(connectionString);
+            Log.Information("... Arg Test ++ Positive ++ : END ...");
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace WannaWhat.Data.Migrations.PersistedGrantDb
 {
     [DbContext(typeof(PersistedGrantDbContext))]
-    [Migration("20201118081759_Intial")]
-    partial class Intial
+    [Migration("20201220202140_Persisted")]
+    partial class Persisted
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

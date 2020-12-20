@@ -10,7 +10,7 @@ using WannaWhat.Data;
 namespace WannaWhat.Data.Migrations
 {
     [DbContext(typeof(WannaWhatDbContext))]
-    [Migration("20201220143351_BigBang")]
+    [Migration("20201220193945_BigBang")]
     partial class BigBang
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
