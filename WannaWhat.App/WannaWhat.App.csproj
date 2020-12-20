@@ -21,4 +21,13 @@
     <ServiceWorker Include="wwwroot\service-worker.js" PublishedContent="wwwroot\service-worker.published.js" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Pages\Browse - Copy - Copy.razor.cs">
+      <DependentUpon>Browse - Copy.razor.cs</DependentUpon>
+    </Compile>
+    <Compile Update="Pages\Browse - Copy.razor.cs">
+      <DependentUpon>Browse.razor.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>
