@@ -10,8 +10,8 @@ using WannaWhat.Data;
 namespace WannaWhat.Data.Migrations
 {
     [DbContext(typeof(WannaWhatDbContext))]
-    [Migration("20201120182751_initial")]
-    partial class initial
+    [Migration("20201220143351_BigBang")]
+    partial class BigBang
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -168,6 +168,22 @@ namespace WannaWhat.Data.Migrations
                     b.ToTable("Interest");
                 });
 
+            modelBuilder.Entity("WannaWhat.Core.Models.Mood", b =>
+                {
+                    b.Property<string>("MoodId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("varchar(20)");
+
+                    b.HasKey("MoodId");
+
+                    b.ToTable("Mood");
+                });
+
             modelBuilder.Entity("WannaWhat.Core.Models.Personality", b =>
                 {
                     b.Property<string>("PersonalityId")
@@ -231,6 +247,38 @@ namespace WannaWhat.Data.Migrations
                     b.ToTable("UserInterests");
                 });
 
+            modelBuilder.Entity("WannaWhat.Core.Models.UserMoods", b =>
+                {
+                    b.Property<string>("UserMoodId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("CustomNote")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("FromDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("MoodId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("ToDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("UserMoodId");
+
+                    b.HasIndex("MoodId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("UserMoods");
+                });
+
             modelBuilder.Entity("WannaWhat.Core.Models.UserPersonality", b =>
                 {
                     b.Property<string>("UserId")
@@ -266,6 +314,9 @@ namespace WannaWhat.Data.Migrations
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsOnline")
                         .HasColumnType("bit");
 
                     b.Property<bool>("LockoutEnabled")
@@ -387,6 +438,17 @@ namespace WannaWhat.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("WannaWhat.Core.Models.UserMoods", b =>
+                {
+                    b.HasOne("WannaWhat.Core.Models.Mood", "Mood")
+                        .WithMany("UserMoods")
+                        .HasForeignKey("MoodId");
+
+                    b.HasOne("WannaWhat.Core.Models.WannaWhatUser", "User")
+                        .WithMany("UserMoods")
+                        .HasForeignKey("UserId");
                 });
 
             modelBuilder.Entity("WannaWhat.Core.Models.UserPersonality", b =>

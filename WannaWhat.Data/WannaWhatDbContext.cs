@@ -16,9 +16,19 @@ namespace WannaWhat.Data
 
         }
 
+        //User table created internally
+
         public DbSet<UserInfo> UserInfo { get; set; }
 
+        public DbSet<Mood> Mood { get; set; }
+
+        public DbSet<UserMoods> UserMoods { get; set; }
+
+        public DbSet<Personality> Personality { get; set; }
+
         public DbSet<UserPersonality> UserPersonalities { get; set; }
+
+        public DbSet<Interest> Interest { get; set; }
 
         public DbSet<UserInterest> UserInterests { get; set; }
 

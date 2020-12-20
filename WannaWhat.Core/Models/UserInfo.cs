@@ -9,8 +9,11 @@ namespace WannaWhat.Core.Models
     public class UserInfo
     {
 
-        //[Key]
-        //public int UserInfoId { get; set; }
+        [ForeignKey("UserId")]
+        public WannaWhatUser User { get; set; }
+
+        [Key]
+        public string UserId { get; set; }
 
 
         public UserInfo()
@@ -43,11 +46,7 @@ namespace WannaWhat.Core.Models
 
         public HairColor? HairColor { get; set; } = Core.HairColor.None;
 
-        [ForeignKey("UserId")]
-        public WannaWhatUser User { get; set; }
-
-        [Key]
-        public string UserId { get; set; }
+     
 
 
     }
