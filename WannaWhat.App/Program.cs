@@ -31,8 +31,8 @@ namespace WannaWhat.App
             });
 
             
-            builder.Services.AddScoped<ISignalRConnection, SignalRConnection>();
-            builder.Services.AddScoped<ISignalRClient, SignalRClient>();
+            builder.Services.AddTransient<ISignalRConnection, SignalRConnection>();
+            builder.Services.AddTransient<ISignalRClient, SignalRClient>();
 
 
             //builder.Services.AddScoped<HubConnection>();

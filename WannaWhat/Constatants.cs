@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace WannaWhat.App
+namespace WannaWhat
 {
     public static class Constatants
     {

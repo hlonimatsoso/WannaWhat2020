@@ -27,28 +27,28 @@ namespace WannaWhat.UserApi.SignalR
 
         private Task OnNewConnection(string connId)
         {
-            return Clients.All.SendAsync("OnNewConnection", connId);
+            return Clients.All.SendAsync(Constatants.Notificationhub_OnNewConnection, connId);
         }
 
         private Task OnDisconnection(string connId)
         {
-            return Clients.All.SendAsync("OnDisconnection", connId);
+            return Clients.All.SendAsync(Constatants.Notificationhub_OnDisconnection, connId);
         }
 
         public Task SendMessageToEveryone(string msg)
         {
-            return Clients.All.SendAsync("OnInboundMessage", msg);
+            return Clients.All.SendAsync(Constatants.Notificationhub_OnInboundMessage, msg);
         }
 
         public Task SendMessageToCaller(string msg)
         {
-            return Clients.Caller.SendAsync("OnInboundMessage", msg);
+            return Clients.Caller.SendAsync(Constatants.Notificationhub_OnInboundMessage, msg);
         }
 
 
         public Task SendMessageToUser(string connectionId, string msg)
         {
-            return Clients.Client(connectionId).SendAsync("InboundMessage", msg);
+            return Clients.Client(connectionId).SendAsync(Constatants.Notificationhub_OnInboundMessage, msg);
         }
     }
 }

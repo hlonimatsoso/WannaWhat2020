@@ -11,10 +11,38 @@
     <span>Status: @SignalRClient.SignalRConnection.ConnectionStatus</span>
 </div>
 
+
+<h4>Connections</h4>
+
+<ul>
+    @foreach (string note in connections)
+    {
+        <li>
+            <div>
+                @note;
+            </div>
+        </li>
+    }
+</ul>
+
 <h4>Notifications</h4>
 
 <ul>
     @foreach (string note in notifications)
+    {
+        <li>
+            <div>
+                @note;
+            </div>
+        </li>
+    }
+</ul>
+
+
+<h4>Messages</h4>
+
+<ul>
+    @foreach (string note in msgs)
     {
         <li>
             <div>

@@ -45,7 +45,9 @@ namespace WannaWhat.UserApi.Controllers
         {
             try
             {
-                await _hub.SendMessageToUser(connId, msg);
+                await _hubContext.Clients.Client(connId).SendAsync(Constatants.Notificationhub_OnInboundMessage, msg);
+
+                //await _hub.SendMessageToUser(connId, msg);
             }
             catch (Exception)
             {

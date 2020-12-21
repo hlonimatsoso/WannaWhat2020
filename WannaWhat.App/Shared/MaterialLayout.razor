@@ -63,8 +63,16 @@
 
             <MainNavLinks></MainNavLinks>
             <MatProgressBar Indeterminate="true" Closed="false"></MatProgressBar>
+
             @Body
 
+        <ul>
+
+            @foreach (string conn in connections)
+            {
+                <li>@conn</li>
+            }
+        </ul>
 
             <FooterNavLinks></FooterNavLinks>
 
@@ -103,10 +111,24 @@
 
 @code{
 
-    protected override Task OnInitializedAsync()
-    {
 
-        return base.OnInitializedAsync();
+    [Inject]
+    public ISignalRClient SignalRClient { get; set; }
+
+    List<string> connections;
+
+    protected async override Task OnInitializedAsync()
+    {
+        connections = new List<string> { };
+        await SignalRClient.ConnectToServer();
+        SignalRClient.SignalRConnection.Connection.On<string>(Constatants.Notificationhub_OnNewConnection, OnNewSignalRConnection);
+        await base.OnInitializedAsync();
+    }
+
+    private void OnNewSignalRConnection(string connId)
+    {
+        this.connections.Add(connId);
+        StateHasChanged();
     }
 
     BaseMatIconButton OpenMenuButton;
