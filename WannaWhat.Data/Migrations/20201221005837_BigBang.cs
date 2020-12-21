@@ -218,6 +218,30 @@ namespace WannaWhat.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "UserInventory",
+                columns: table => new
+                {
+                    UserId = table.Column<string>(nullable: false),
+                    XP = table.Column<int>(nullable: false),
+                    HeartCount = table.Column<int>(nullable: false),
+                    ReceivedHeartsCount = table.Column<int>(nullable: false),
+                    WincCount = table.Column<int>(nullable: false),
+                    ReceivedWincCount = table.Column<int>(nullable: false),
+                    FakeRabitsCount = table.Column<int>(nullable: false),
+                    RealRabitsCount = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserInventory", x => x.UserId);
+                    table.ForeignKey(
+                        name: "FK_UserInventory_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "UserInterests",
                 columns: table => new
                 {
@@ -376,6 +400,9 @@ namespace WannaWhat.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "UserInterests");
+
+            migrationBuilder.DropTable(
+                name: "UserInventory");
 
             migrationBuilder.DropTable(
                 name: "UserMoods");

@@ -9,5 +9,8 @@ namespace WannaWhat.Core.Interfaces
     {
         void InsertUser(UserInfo info);
         UserInfo GetUserInfo(string id);
+
+        UserInventory GetUserInventory(string id);
+
     }
 }

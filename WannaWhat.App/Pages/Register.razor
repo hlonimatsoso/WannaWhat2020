@@ -9,6 +9,18 @@
             <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12 ">
                 <h2 class="center"> Register</h2>
             </div>
+            <span>
+                @Message
+            </span>
+            <div>
+                <EditForm Model="@VM" OnValidSubmit="SaveUser">
+                    <div>
+                        <span>User Name :</span>
+                        <input type="text" @bind-value="@VM.PersonalInfo.Name" placeholder="User Name" />
+                    </div>
+                    <button>Submit</button>
+                </EditForm>
+            </div>
         </div>
     </div>
 </Animate>

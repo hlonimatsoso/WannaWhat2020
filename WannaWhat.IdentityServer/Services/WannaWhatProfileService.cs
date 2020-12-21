@@ -31,6 +31,8 @@ namespace WannaWhat.IdentityServer.Services
             var user = await _userManager.FindByIdAsync(sub);
             var principal = await _claimsFactory.CreateAsync(user);
             var userInfo = _regHelper.GetUserInfo(user.Id);
+            var userInventory = _regHelper.GetUserInventory(user.Id);
+
 
             var claims = principal.Claims.ToList();
             claims = claims.Where(claim => context.RequestedClaimTypes.Contains(claim.Type)).ToList();
@@ -39,7 +41,7 @@ namespace WannaWhat.IdentityServer.Services
             claims.Add(new Claim("is_active", user.IsActive.ToString() ?? "false"));
             claims.Add(new Claim("isOnline", user.IsOnline.ToString() ?? "false"));
 
-            if (userInfo!=null)
+            if (userInfo != null)
             {
                 claims.Add(new Claim("gender", userInfo.Gender.ToString()));
                 claims.Add(new Claim("dob", userInfo.DOB.ToString()));
@@ -47,7 +49,16 @@ namespace WannaWhat.IdentityServer.Services
 
             }
 
+            if (userInventory != null)
+            {
+                claims.Add(new Claim("xp", userInventory.XP.ToString()));
+                claims.Add(new Claim("wincCount", userInventory.WincCount.ToString()));
+                claims.Add(new Claim("receivedWincCount", userInventory.ReceivedWincCount.ToString()));
+                claims.Add(new Claim("heartCount", userInventory.HeartCount.ToString()));
+                claims.Add(new Claim("receivedHeartCount", userInventory.ReceivedHeartsCount.ToString()));
 
+
+            }
 
             context.IssuedClaims = claims;
         }

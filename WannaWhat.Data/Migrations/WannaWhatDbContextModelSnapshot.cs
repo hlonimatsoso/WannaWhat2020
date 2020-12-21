@@ -245,6 +245,37 @@ namespace WannaWhat.Data.Migrations
                     b.ToTable("UserInterests");
                 });
 
+            modelBuilder.Entity("WannaWhat.Core.Models.UserInventory", b =>
+                {
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<int>("FakeRabitsCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("HeartCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RealRabitsCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ReceivedHeartsCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ReceivedWincCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("WincCount")
+                        .HasColumnType("int");
+
+                    b.Property<int>("XP")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId");
+
+                    b.ToTable("UserInventory");
+                });
+
             modelBuilder.Entity("WannaWhat.Core.Models.UserMoods", b =>
                 {
                     b.Property<string>("UserMoodId")
@@ -434,6 +465,15 @@ namespace WannaWhat.Data.Migrations
                     b.HasOne("WannaWhat.Core.Models.WannaWhatUser", "User")
                         .WithMany("UserInerests")
                         .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("WannaWhat.Core.Models.UserInventory", b =>
+                {
+                    b.HasOne("WannaWhat.Core.Models.WannaWhatUser", "User")
+                        .WithOne("UserInventory")
+                        .HasForeignKey("WannaWhat.Core.Models.UserInventory", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

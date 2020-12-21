@@ -20,6 +20,9 @@ namespace WannaWhat.Data
 
         public DbSet<UserInfo> UserInfo { get; set; }
 
+        public DbSet<UserInventory> UserInventory { get; set; }
+
+
         public DbSet<Mood> Mood { get; set; }
 
         public DbSet<UserMoods> UserMoods { get; set; }

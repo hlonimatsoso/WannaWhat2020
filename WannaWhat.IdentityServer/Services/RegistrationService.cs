@@ -29,7 +29,15 @@ namespace WannaWhat.IdentityServer.Services
         {
             UserInfo result = null;
             if (DbContext.UserInfo.Count() > 0)
-                result = DbContext.UserInfo.First();
+                result = DbContext.UserInfo.Find(id);
+            return result;
+        }
+
+        public UserInventory GetUserInventory(string id)
+        {
+            UserInventory result = null;
+            if (DbContext.UserInventory.Count() > 0)
+                result = DbContext.UserInventory.Find(id);
             return result;
         }
     }

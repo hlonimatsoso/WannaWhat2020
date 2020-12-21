@@ -100,7 +100,15 @@ namespace WannaWhat.IdentityServer
                             new Claim("configApi.read", "true"),
                             new Claim("configApi.write", "true"),
                             new Claim("scope2", "scope2"),
-                            new Claim("test", "BOBBY TEST")
+                            new Claim("test", "BOBBY TEST"),
+                            new Claim("xp","55"),
+                            new Claim("wincCount","7"),
+                            new Claim("receivedWincCount","3"),
+                            new Claim("heartCount","2"),
+                            new Claim("receivedHeartCount","4")
+
+
+
 
 
 

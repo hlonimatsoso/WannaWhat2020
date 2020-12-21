@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WannaWhat.Core", "WannaWhat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WannaWhat.Data", "WannaWhat.Data\WannaWhat.Data.csproj", "{EA33B4B4-F2CD-429A-889F-6530C2439A74}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WannaWhat", "WannaWhat\WannaWhat.csproj", "{574AD8DE-82F9-44AA-B731-AC3157DAF272}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,18 @@ Global
 		{EA33B4B4-F2CD-429A-889F-6530C2439A74}.Release|x64.Build.0 = Release|Any CPU
 		{EA33B4B4-F2CD-429A-889F-6530C2439A74}.Release|x86.ActiveCfg = Release|Any CPU
 		{EA33B4B4-F2CD-429A-889F-6530C2439A74}.Release|x86.Build.0 = Release|Any CPU
+		{574AD8DE-82F9-44AA-B731-AC3157DAF272}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{574AD8DE-82F9-44AA-B731-AC3157DAF272}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{574AD8DE-82F9-44AA-B731-AC3157DAF272}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{574AD8DE-82F9-44AA-B731-AC3157DAF272}.Debug|x64.Build.0 = Debug|Any CPU
+		{574AD8DE-82F9-44AA-B731-AC3157DAF272}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{574AD8DE-82F9-44AA-B731-AC3157DAF272}.Debug|x86.Build.0 = Debug|Any CPU
+		{574AD8DE-82F9-44AA-B731-AC3157DAF272}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{574AD8DE-82F9-44AA-B731-AC3157DAF272}.Release|Any CPU.Build.0 = Release|Any CPU
+		{574AD8DE-82F9-44AA-B731-AC3157DAF272}.Release|x64.ActiveCfg = Release|Any CPU
+		{574AD8DE-82F9-44AA-B731-AC3157DAF272}.Release|x64.Build.0 = Release|Any CPU
+		{574AD8DE-82F9-44AA-B731-AC3157DAF272}.Release|x86.ActiveCfg = Release|Any CPU
+		{574AD8DE-82F9-44AA-B731-AC3157DAF272}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

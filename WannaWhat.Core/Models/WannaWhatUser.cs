@@ -19,6 +19,8 @@ namespace WannaWhat.Core.Models
 
         public UserInfo UserInfo { get; set; }
 
+        public UserInventory UserInventory { get; set; }
+
         public List<UserInterest> UserInerests { get; set; }
 
         public List<UserPersonality> UserPersonalities { get; set; }
