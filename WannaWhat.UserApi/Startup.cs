@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using WannaWhat.UserApi.SignalR;
 
 namespace WannaWhat.UserApi
 {
@@ -33,12 +34,14 @@ namespace WannaWhat.UserApi
                         options.Authority = "https://localhost:5000";
                         options.Audience = "userApi";
                     });
-            //services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
-            //{
-            //    builder.AllowAnyOrigin()
-            //           .AllowAnyMethod()
-            //           .AllowAnyHeader();
-            //}));
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
+
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -49,7 +52,7 @@ namespace WannaWhat.UserApi
                 app.UseDeveloperExceptionPage();
             }
 
-            //app.UseCors("MyPolicy");
+            app.UseCors("MyPolicy");
 
             app.UseHttpsRedirection();
 
@@ -60,8 +63,12 @@ namespace WannaWhat.UserApi
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<NotificationHub>("/notificationhub");
                 endpoints.MapControllers();
+                //endpoints.MapBlazorHub();
             });
+
+            
         }
     }
 }
