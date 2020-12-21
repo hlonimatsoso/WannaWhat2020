@@ -1,0 +1,25 @@
+﻿@inherits SignalRClientDemoBase
+
+<h3>SignalR Client Demo</h3>
+
+
+<div>
+    <MatButton OnClick="Connect" Disabled="@SignalRClient.SignalRConnection.IsConnected">Connect</MatButton>
+</div>
+
+<div>
+    <span>Status: @SignalRClient.SignalRConnection.ConnectionStatus</span>
+</div>
+
+<h4>Notifications</h4>
+
+<ul>
+    @foreach (string note in notifications)
+    {
+        <li>
+            <div>
+                @note;
+            </div>
+        </li>
+    }
+</ul>

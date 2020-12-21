@@ -8,6 +8,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+using Microsoft.AspNet.SignalR.Client;
+using WannaWhat.App.Interfaces;
+using WannaWhat.App.SignalR;
 
 namespace WannaWhat.App
 {
@@ -27,6 +30,12 @@ namespace WannaWhat.App
                 builder.Configuration.Bind("oidc", options.ProviderOptions);
             });
 
+            
+            builder.Services.AddScoped<ISignalRConnection, SignalRConnection>();
+            builder.Services.AddScoped<ISignalRClient, SignalRClient>();
+
+
+            //builder.Services.AddScoped<HubConnection>();
 
             builder.Services.AddHttpClient("userApi", client => 
                 client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))

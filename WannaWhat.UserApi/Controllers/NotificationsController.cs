@@ -14,10 +14,13 @@ namespace WannaWhat.UserApi.Controllers
     public class NotificationsController : ControllerBase
     {
         private readonly IHubContext<NotificationHub> _hubContext;
+        private readonly NotificationHub _hub;
 
-        public NotificationsController(IHubContext<NotificationHub> hub)
+
+        public NotificationsController(IHubContext<NotificationHub> hubCon, NotificationHub hub)
         {
-            this._hubContext = hub;
+            this._hubContext = hubCon;
+            this._hub = hub;
         }
 
         [HttpPost]
@@ -26,6 +29,23 @@ namespace WannaWhat.UserApi.Controllers
             try
             {
                 await _hubContext.Clients.All.SendAsync("notification", $"Message from '{name}' : '{msg}'");
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
+            return Ok("Notification was sent successfully.");
+        }
+
+
+        [HttpPost("SendToUser")]
+        public async Task<IActionResult> SendToUser(string connId, string msg)
+        {
+            try
+            {
+                await _hub.SendMessageToUser(connId, msg);
             }
             catch (Exception)
             {

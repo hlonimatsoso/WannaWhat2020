@@ -42,6 +42,7 @@ namespace WannaWhat.UserApi
             }));
 
             services.AddSignalR();
+            services.AddScoped<NotificationHub>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
