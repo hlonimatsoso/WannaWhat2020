@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNet.SignalR.Client;
 using WannaWhat.App.Interfaces;
 using WannaWhat.App.SignalR;
+using Tewr.Blazor.FileReader;
 
 namespace WannaWhat.App
 {
@@ -20,6 +21,10 @@ namespace WannaWhat.App
         {
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("app");
+
+            builder.Services.AddFileReaderService(options => {
+                options.UseWasmSharedBuffer = true;
+            });
 
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 

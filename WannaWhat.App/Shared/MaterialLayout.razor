@@ -66,13 +66,13 @@
 
             @Body
 
-        <ul>
+            <ul>
 
-            @foreach (string conn in connections)
-            {
-                <li>@conn</li>
-            }
-        </ul>
+                @foreach (string conn in connections)
+                {
+                    <li>@conn</li>
+                }
+            </ul>
 
             <FooterNavLinks></FooterNavLinks>
 
@@ -122,12 +122,21 @@
         connections = new List<string> { };
         await SignalRClient.ConnectToServer();
         SignalRClient.SignalRConnection.Connection.On<string>(Constatants.Notificationhub_OnNewConnection, OnNewSignalRConnection);
+        SignalRClient.SignalRConnection.Connection.On<string>(Constatants.Notificationhub_OnDisconnection, OnDisconnection);
+
         await base.OnInitializedAsync();
     }
 
     private void OnNewSignalRConnection(string connId)
     {
         this.connections.Add(connId);
+        StateHasChanged();
+    }
+
+
+    private void OnDisconnection(string connId)
+    {
+        this.connections.Remove(connId);
         StateHasChanged();
     }
 
