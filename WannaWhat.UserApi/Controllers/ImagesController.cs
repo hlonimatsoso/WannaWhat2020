@@ -43,7 +43,7 @@ namespace WannaWhat.UserApi.Controllers
                 //await fs.CopyToAsync(stream);
             }
 
-            return Ok($"Saved successfully here : '{newFilelName}'");
+            return Ok($"Images/{newFilelName}");
 
         }
 
