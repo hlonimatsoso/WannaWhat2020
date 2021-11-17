@@ -24,6 +24,7 @@ namespace WannaWhat.App.SignalR
         public bool IsConnected { get; set; }
         public string Url { get; set; }
 
+        public List<string> notifications { get; set; }
 
         public async Task ConnectToServer()
         {
@@ -32,7 +33,7 @@ namespace WannaWhat.App.SignalR
             ConnectionStatus = ConnectionStatus.Connected;
             IsConnected = true;
             Connection.Closed += _connection_Closed;
-            //Connection.On<string>("notification", s => { this.notifications.Add(s); StateHasChanged(); });
+            Connection.On<string>("notification", s => { this.notifications.Add(s); });
             //StateHasChanged();
         }
 
