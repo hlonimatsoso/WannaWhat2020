@@ -16,9 +16,11 @@
                 <EditForm Model="@VM" OnValidSubmit="SaveUser">
                     <div>
                         <span>User Name :</span>
-                        <input type="text" @bind-value="@VM.PersonalInfo.Name" placeholder="User Name" />
+                        <MatTextField @bind-Value="@VM.PersonalInfo.Name" Label="User Name"></MatTextField>
+                        @*<input type="text" @bind-value="@VM.PersonalInfo.Name" placeholder="User Name" />*@
                     </div>
-                    <button>Submit</button>
+                    @*<button>Submit</button>*@
+                    <MatButton Raised="true">SUBMIT</MatButton>
                 </EditForm>
             </div>
         </div>
