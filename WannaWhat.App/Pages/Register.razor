@@ -4,27 +4,77 @@
 
 <Animate Animation="Animations.FadeIn" Duration="TimeSpan.FromSeconds(2)">
 
-    <div class="mat-layout-grid">
-        <div class="mat-layout-grid-inner">
-            <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12 ">
-                <h2 class="center"> Register</h2>
-            </div>
-            <span>
-                @Message
-            </span>
-            <div>
-                <EditForm Model="@VM" OnValidSubmit="SaveUser">
-                    <div>
-                        <span>User Name :</span>
-                        <MatTextField @bind-Value="@VM.PersonalInfo.Name" Label="User Name"></MatTextField>
-                        @*<input type="text" @bind-value="@VM.PersonalInfo.Name" placeholder="User Name" />*@
-                    </div>
-                    @*<button>Submit</button>*@
-                    <MatButton Raised="true">SUBMIT</MatButton>
-                </EditForm>
-            </div>
-        </div>
+    <MatButton OnClick="@ChangeTab">Change Tab</MatButton>
+    <MatButton OnClick="@Register">Register</MatButton>
+
+    <div>
+        Active tab index: @tabIndex
     </div>
+
+    @Message
+
+    @if (ShowRegistrationErrors)
+    {
+        <div class="alert alert-danger" role="alert">
+            @foreach (var error in Errors)
+            {
+                <p>@error</p>
+            }
+        </div>
+    }
+
+    <MatTabGroup @bind-ActiveIndex="@tabIndex">
+        <MatTab Label="First">
+            <EditForm Model="@VM" OnValidSubmit="@SaveUser">
+                <DataAnnotationsValidator />
+                <div>
+                    <MatTextField @bind-Value="@VM.UserName" Label="User Name"></MatTextField>
+                    <MatTextField @bind-Value="@VM.Password" Label="Password"></MatTextField>
+                    <MatTextField @bind-Value="@VM.Email" Label="Email"></MatTextField>
+
+                    <ValidationMessage For="@(() => VM.UserName)" />
+                    <ValidationMessage For="@(() => VM.Password)" />
+                    <ValidationMessage For="@(() => VM.Email)" />
+
+                </div>
+                @*<button>Submit</button>*@
+                <MatButton Raised="true">SUBMIT</MatButton>
+            </EditForm>
+        </MatTab>
+        <MatTab Label="Second">
+            Second Content
+        </MatTab>
+        <MatTab Label="Third">
+            Third Content
+        </MatTab>
+        <MatTab Label="Fourth">
+            Fourth Content
+        </MatTab>
+
+    </MatTabGroup>
+
+    @code
+        {
+        public int tabIndex = 0;
+
+        void ChangeTab(MouseEventArgs e)
+        {
+            tabIndex = tabIndex < 3 ? tabIndex + 1 : 0;
+            Message = $"Tab isnow{tabIndex}";
+        }
+    }
+    @*<div class="mat-layout-grid">
+            <div class="mat-layout-grid-inner">
+                <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12 ">
+                    <h2 class="center"> Register</h2>
+                </div>
+                <span>
+                </span>
+                <div>
+
+                </div>
+            </div>
+        </div>*@
 </Animate>
 <style>
     .center {

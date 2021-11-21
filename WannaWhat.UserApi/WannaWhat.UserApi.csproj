@@ -6,10 +6,13 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="3.1.10" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.5" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\WannaWhat.Core\WannaWhat.Core.csproj" />
+    <ProjectReference Include="..\WannaWhat.Data\WannaWhat.Data.csproj" />
     <ProjectReference Include="..\WannaWhat\WannaWhat.csproj" />
   </ItemGroup>
 

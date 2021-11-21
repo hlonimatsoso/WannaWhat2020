@@ -126,7 +126,7 @@ namespace WannaWhat.IdentityServer
                 app.UseDeveloperExceptionPage();
                 app.UseDatabaseErrorPage();
             }
-
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             //app.UseCors("MyPolicy");
 
