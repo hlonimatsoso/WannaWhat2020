@@ -19,6 +19,14 @@ namespace WannaWhat.App.Pages
         [Inject]
         public NavigationManager NavigationManager { get; set; }
         public bool ShowRegistrationErrors { get; set; }
+        public bool RegisterDisabled
+        {
+            get
+            {
+                return string.IsNullOrEmpty(this.VM.UserName) || string.IsNullOrEmpty(this.VM.Password) || string.IsNullOrEmpty(this.VM.Email);
+            }
+        }
+
         public IEnumerable<string> Errors { get; set; }
         [Inject]
         protected IMatToaster Toaster { get; set; }
@@ -26,7 +34,7 @@ namespace WannaWhat.App.Pages
         {
             ShowRegistrationErrors = false;
             var result = await AuthenticationService.RegisterUser(VM);
-            if (result is UserRegistrationErrorResponse )
+            if (result is UserRegistrationErrorResponse)
             {
 
                 Errors = ((UserRegistrationErrorResponse)result).errors.Email;
@@ -34,7 +42,7 @@ namespace WannaWhat.App.Pages
                 Toaster.Add("Something bombed out", MatToastType.Danger, "Ooops!");
 
             }
-            else if(result is UserRegistrationResponseDto)
+            else if (result is UserRegistrationResponseDto)
             {
                 Toaster.Add("We are done..", MatToastType.Success, "Registration complete!");
                 NavigationManager.NavigateTo("/");

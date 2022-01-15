@@ -24,7 +24,10 @@ namespace WannaWhat.UserApi.Controllers
         {
             if (userForRegistration == null || !ModelState.IsValid)
                 return BadRequest();
-            var user = new WannaWhatUser { UserName = userForRegistration.UserName, Email = userForRegistration.Email };
+            //var user = new WannaWhatUser { UserName = userForRegistration.UserName, Email = userForRegistration.Email };
+            var user = new WannaWhatUser(userForRegistration);
+
+
 
             var result = await _userManager.CreateAsync(user, userForRegistration.Password);
             if (!result.Succeeded)

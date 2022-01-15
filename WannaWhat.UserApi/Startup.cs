@@ -55,6 +55,8 @@ namespace WannaWhat.UserApi
             services.AddIdentity<WannaWhatUser, IdentityRole>()
                 .AddEntityFrameworkStores<WannaWhatDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -63,6 +65,8 @@ namespace WannaWhat.UserApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
 
             app.UseCors("MyPolicy");

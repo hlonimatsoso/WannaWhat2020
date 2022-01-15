@@ -3,18 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using WannaWhat.Core;
+using WannaWhat.ViewModels;
 
 namespace WannaWhat.Core.Models
 {
     public class UserInfo
     {
-
-        [ForeignKey("UserId")]
-        public WannaWhatUser User { get; set; }
-
-        [Key]
-        public string UserId { get; set; }
-
 
         public UserInfo()
         {
@@ -29,8 +23,25 @@ namespace WannaWhat.Core.Models
             Age = (byte)(DateTime.Now.Year - DOB.Year);
         }
 
+        public UserInfo(PersonalInfoViewModel vm) 
+        {
+            this.DOB = vm.DOB;
+            this.Age = (byte)(DateTime.Now.Year - this.DOB.Year);
+            this.Gender = vm.Gender;
+            this.FullName = vm.Name;
+            this.Surname = vm.Surname;
+        }
 
-  
+
+        [ForeignKey("UserId")]
+        public WannaWhatUser User { get; set; }
+
+        [Key]
+        public string UserId { get; set; }
+
+        public string FullName { get; set; }
+
+        public string Surname { get; set; }
 
         public DateTime DOB { get; set; }
 

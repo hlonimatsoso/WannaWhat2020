@@ -3,11 +3,28 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
+using WannaWhat.ViewModels;
 
 namespace WannaWhat.Core.Models
 {
     public class WannaWhatUser : IdentityUser
     {
+
+        public WannaWhatUser()
+        {
+
+        }
+
+        public WannaWhatUser(RegisterViewModel vm) 
+        {
+            this.UserName = vm.UserName;
+            this.Email = vm.Email;
+            this.UserInfo = new UserInfo(vm.PersonalInfo);
+            this.UserInventory = new UserInventory();
+            this.UserInerests = new List<UserInterest>();
+            this.UserPersonalities = new List<UserPersonality>();
+            this.UserMoods = new List<UserMoods>();
+        }
 
         //[Key]
         //public int WannaWhatUserId { get; set; }
