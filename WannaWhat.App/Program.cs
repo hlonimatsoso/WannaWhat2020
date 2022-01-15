@@ -12,6 +12,9 @@ using Microsoft.AspNet.SignalR.Client;
 using WannaWhat.App.Interfaces;
 using WannaWhat.App.SignalR;
 using Tewr.Blazor.FileReader;
+using Microsoft.AspNetCore.Authentication;
+using WannaWhat.App.Services;
+using MatBlazor;
 
 namespace WannaWhat.App
 {
@@ -38,12 +41,24 @@ namespace WannaWhat.App
             
             builder.Services.AddTransient<ISignalRConnection, SignalRConnection>();
             builder.Services.AddTransient<ISignalRClient, SignalRClient>();
+            builder.Services.AddTransient<IAuthService, AuthService>();
+
+            builder.Services.AddMatToaster(config =>
+            {
+                config.Position = MatToastPosition.BottomRight;
+                config.PreventDuplicates = true;
+                config.NewestOnTop = true;
+                config.ShowCloseButton = true;
+                config.MaximumOpacity = 95;
+                config.VisibleStateDuration = 3000;
+            });
+
 
 
             //builder.Services.AddScoped<HubConnection>();
 
             builder.Services.AddHttpClient("userApi", client => 
-                client.BaseAddress = new Uri(builder.HostEnvironment.BaseAddress))
+                client.BaseAddress = new Uri("https://localhost:5002/"))
                       .AddHttpMessageHandler<BaseAddressAuthorizationMessageHandler>();
 
             await builder.Build().RunAsync();

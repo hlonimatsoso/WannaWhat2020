@@ -6,11 +6,15 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using WannaWhat.Core.Models;
+using WannaWhat.Data;
 using WannaWhat.UserApi.SignalR;
 
 namespace WannaWhat.UserApi
@@ -43,6 +47,16 @@ namespace WannaWhat.UserApi
 
             services.AddSignalR();
             services.AddScoped<NotificationHub>();
+
+
+            services.AddDbContext<WannaWhatDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddIdentity<WannaWhatUser, IdentityRole>()
+                .AddEntityFrameworkStores<WannaWhatDbContext>()
+                .AddDefaultTokenProviders();
+
+            services.AddSwaggerGen();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,6 +65,8 @@ namespace WannaWhat.UserApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI();
             }
 
             app.UseCors("MyPolicy");

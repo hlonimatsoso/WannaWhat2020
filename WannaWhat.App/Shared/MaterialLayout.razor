@@ -53,7 +53,15 @@
                     </NavLink>
                 </div>
                 <LoginDisplay />
-                <MatIconButton Icon="favorite"></MatIconButton>
+                <MatIconButton OnClick="@OnClick2" Icon="favorite"></MatIconButton>
+                <MatButton Label="Menu" OnClick="@OnClick2" @ref="Button2"></MatButton>
+                <MatMenu @ref="Menu2">
+                    <MatList>
+                        <MatListItem><MatButton Icon="dashboard" OnClick="@(()=>{ NaviMan.NavigateTo("profile"); })">Profile</MatButton></MatListItem>
+                        <MatListItem>Settings</MatListItem>
+                        <MatListItem>Log Out</MatListItem>
+                    </MatList>
+                </MatMenu> 
             </MatAppBarSection>
         </MatAppBarRow>
     </MatAppBar>
@@ -73,7 +81,7 @@
                     <li>@conn</li>
                 }
             </ul>
-
+            <MatToastContainer />
             <FooterNavLinks></FooterNavLinks>
 
         </div>
@@ -146,5 +154,13 @@
     public void OnOpenMenu(MouseEventArgs e)
     {
         this.Menu.OpenAsync(OpenMenuButton.Ref);
+    }
+
+    MatButton Button2;
+    BaseMatMenu Menu2;
+
+    public void OnClick2(MouseEventArgs e)
+    {
+        this.Menu2.OpenAsync(Button2.Ref);
     }
 }

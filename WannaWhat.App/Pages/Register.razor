@@ -4,25 +4,114 @@
 
 <Animate Animation="Animations.FadeIn" Duration="TimeSpan.FromSeconds(2)">
 
-    <div class="mat-layout-grid">
-        <div class="mat-layout-grid-inner">
-            <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12 ">
-                <h2 class="center"> Register</h2>
-            </div>
-            <span>
-                @Message
-            </span>
-            <div>
-                <EditForm Model="@VM" OnValidSubmit="SaveUser">
-                    <div>
-                        <span>User Name :</span>
-                        <input type="text" @bind-value="@VM.PersonalInfo.Name" placeholder="User Name" />
-                    </div>
-                    <button>Submit</button>
-                </EditForm>
-            </div>
+
+
+    @*<div>
+            Active tab index: @tabIndex
+        </div>*@
+
+    @Message
+
+    @if (ShowRegistrationErrors)
+    {
+        <div class="alert alert-danger" role="alert">
+            @foreach (var error in Errors)
+            {
+                <p>@error</p>
+            }
         </div>
-    </div>
+    }
+
+
+    <MatAccordion>
+        <MatExpansionPanel>
+            <MatExpansionPanelSummary>
+                <MatExpansionPanelHeader>Mandetory Details</MatExpansionPanelHeader>
+                <MatExpansionPanelSubHeader>User name etc</MatExpansionPanelSubHeader>
+            </MatExpansionPanelSummary>
+            <MatExpansionPanelDetails>
+                <EditForm Model="@VM" OnValidSubmit="@SaveUser">
+                    <DataAnnotationsValidator />
+                    <MatTextField @bind-Value="@VM.UserName"  OnInput="@(e => VM.UserName = e.Value.ToString())"  Label="User Name"></MatTextField>
+                    <MatTextField @bind-Value="@VM.Password"  OnInput="@(e => VM.Password = e.Value.ToString())" Label="Password"></MatTextField>
+                    <MatTextField @bind-Value="@VM.Email"  OnInput="@(e => VM.Email = e.Value.ToString())" Label="Email"></MatTextField>
+
+                    <ValidationMessage For="@(() => VM.UserName)" />
+                    <ValidationMessage For="@(() => VM.Password)" />
+                    <ValidationMessage For="@(() => VM.Email)" />
+                </EditForm>
+            </MatExpansionPanelDetails>
+        </MatExpansionPanel>
+        <MatExpansionPanel>
+            <MatExpansionPanelSummary>
+                <MatExpansionPanelHeader>Personal Details</MatExpansionPanelHeader>
+                <MatExpansionPanelSubHeader>Name, Surname etc</MatExpansionPanelSubHeader>
+            </MatExpansionPanelSummary>
+            <MatExpansionPanelDetails>
+                <EditForm Model="@VM" OnValidSubmit="@SaveUser">
+                    <DataAnnotationsValidator />
+
+                    <MatTextField @bind-Value="@VM.PersonalInfo.Name" Label="Full Name"></MatTextField>
+                    <MatTextField @bind-Value="@VM.PersonalInfo.Surname" OnInput="@(e => VM.PersonalInfo.Surname = e.Value.ToString())" Label="Surname"></MatTextField>
+                    <MatTextField @bind-Value="@VM.PersonalInfo.Gender" Label="Gender"></MatTextField>
+                    <MatDatePicker @bind-Value="@VM.PersonalInfo.DOB" Label="DOB"></MatDatePicker>
+
+                    <ValidationMessage For="@(() => VM.PersonalInfo.Name)" />
+                    <ValidationMessage For="@(() => VM.PersonalInfo.Surname)" />
+                    <ValidationMessage For="@(() => VM.PersonalInfo.Gender)" />
+                    <ValidationMessage For="@(() => VM.PersonalInfo.DOB)" />
+                </EditForm>
+            </MatExpansionPanelDetails>
+        </MatExpansionPanel>
+        <MatExpansionPanel>
+            <MatExpansionPanelSummary>
+                <MatExpansionPanelHeader>Interests & Hobbies</MatExpansionPanelHeader>
+                <MatExpansionPanelSubHeader>Reading, movies etc</MatExpansionPanelSubHeader>
+            </MatExpansionPanelSummary>
+            <MatExpansionPanelDetails>
+                <EditForm Model="@VM" OnValidSubmit="@SaveUser">
+                    <DataAnnotationsValidator />
+
+                    @*<MatTextField @bind-Value="@VM.PersonalInfo.Name" Label="Full Name"></MatTextField>
+                        <MatTextField @bind-Value="@VM.PersonalInfo.Surname" Label="Surname"></MatTextField>
+                        <MatTextField @bind-Value="@VM.PersonalInfo.Gender" Label="Gender"></MatTextField>
+                        <MatDatePicker @bind-Value="@VM.PersonalInfo.DOB" Label="DOB"></MatDatePicker>
+
+                        <ValidationMessage For="@(() => VM.PersonalInfo.Name)" />
+                        <ValidationMessage For="@(() => VM.PersonalInfo.Surname)" />
+                        <ValidationMessage For="@(() => VM.PersonalInfo.Gender)" />
+                        <ValidationMessage For="@(() => VM.PersonalInfo.DOB)" />*@
+                </EditForm>
+            </MatExpansionPanelDetails>
+        </MatExpansionPanel>
+    </MatAccordion>
+
+    @*<MatButton OnClick="@ChangeTab">Change Tab</MatButton>*@
+    <MatButton Disabled="@RegisterDisabled" OnClick="@Register">Register</MatButton>
+
+
+    @*@code
+        {
+        public int tabIndex = 0;
+
+        void ChangeTab(MouseEventArgs e)
+        {
+            tabIndex = tabIndex < 3 ? tabIndex + 1 : 0;
+            Message = $"Tab isnow{tabIndex}";
+        }
+    }*@
+    @*<div class="mat-layout-grid">
+            <div class="mat-layout-grid-inner">
+                <div class="mat-layout-grid-cell mat-layout-grid-cell-span-12 ">
+                    <h2 class="center"> Register</h2>
+                </div>
+                <span>
+                </span>
+                <div>
+
+                </div>
+            </div>
+        </div>*@
 </Animate>
 <style>
     .center {
