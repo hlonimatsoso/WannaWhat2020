@@ -10,5 +10,7 @@ namespace WannaWhat.App.Interfaces
     public interface IAuthService
     {
         Task<UserRegistrationResponse> RegisterUser(RegisterViewModel userForRegistration);
+        Task<UserRegistrationResponse> IsRegistrationViewModelValid(RegisterViewModel userForRegistration);
+
     }
 }

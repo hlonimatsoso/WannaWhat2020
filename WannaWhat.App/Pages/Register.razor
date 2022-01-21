@@ -32,10 +32,9 @@
             <MatExpansionPanelDetails>
                 <EditForm Model="@VM" OnValidSubmit="@SaveUser">
                     <DataAnnotationsValidator />
-                    <MatTextField @bind-Value="@VM.UserName"  OnInput="@(e => VM.UserName = e.Value.ToString())"  Label="User Name"></MatTextField>
-                    <MatTextField @bind-Value="@VM.Password"  OnInput="@(e => VM.Password = e.Value.ToString())" Label="Password"></MatTextField>
-                    <MatTextField @bind-Value="@VM.Email"  OnInput="@(e => VM.Email = e.Value.ToString())" Label="Email"></MatTextField>
-
+                    <MatTextField @bind-Value="@VM.Email" OnInput="@(e => VM.Email = e.Value.ToString())" Label="Email"></MatTextField>
+                    <MatTextField @bind-Value="@VM.UserName" OnInput="@(e => VM.UserName = e.Value.ToString())" Label="User Name"></MatTextField>
+                    <MatTextField @bind-Value="@VM.Password" OnInput="@(e => VM.Password = e.Value.ToString())" Label="Password"></MatTextField>
                     <ValidationMessage For="@(() => VM.UserName)" />
                     <ValidationMessage For="@(() => VM.Password)" />
                     <ValidationMessage For="@(() => VM.Email)" />
@@ -51,7 +50,7 @@
                 <EditForm Model="@VM" OnValidSubmit="@SaveUser">
                     <DataAnnotationsValidator />
 
-                    <MatTextField @bind-Value="@VM.PersonalInfo.Name" Label="Full Name"></MatTextField>
+                    <MatTextField @bind-Value="@VM.PersonalInfo.Name" OnInput="@(e => VM.PersonalInfo.Name = e.Value.ToString())" Label="Full Name"></MatTextField>
                     <MatTextField @bind-Value="@VM.PersonalInfo.Surname" OnInput="@(e => VM.PersonalInfo.Surname = e.Value.ToString())" Label="Surname"></MatTextField>
                     <MatTextField @bind-Value="@VM.PersonalInfo.Gender" Label="Gender"></MatTextField>
                     <MatDatePicker @bind-Value="@VM.PersonalInfo.DOB" Label="DOB"></MatDatePicker>

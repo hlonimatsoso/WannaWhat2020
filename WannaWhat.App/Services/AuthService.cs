@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -23,24 +24,34 @@ namespace WannaWhat.App.Services
         }
         public async Task<UserRegistrationResponse> RegisterUser(RegisterViewModel userForRegistration)
         {
-            if (userForRegistration.UserName is null)
-            {
-                var respo = new UserRegistrationErrorResponse();
-                respo.errors = new WannaWhat.DTOs.Errors();
-                respo.errors.Email = new List<string> { "Username may not be null" };
-                return respo;
-            }
+            UserRegistrationResponse result = new UserRegistrationResponse();
             var content = JsonSerializer.Serialize(userForRegistration);
             var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
             var registrationResult = await _client.PostAsync("api/user/registration", bodyContent);
             var registrationContent = await registrationResult.Content.ReadAsStringAsync();
-            if (!registrationResult.IsSuccessStatusCode)
+            Console.WriteLine($"registrationResult: {registrationResult}");
+
+            //if (!registrationResult.IsSuccessStatusCode)
+            //{
+            Console.WriteLine($"Response: {registrationContent}");
+            var resultDes = JsonSerializer.Deserialize<UserRegistrationResponse>(registrationContent, _options);
+            Console.WriteLine($"Response.resultDes {resultDes}");
+
+            return resultDes;
+            //}
+            //return new UserRegistrationResponseDto { };
+        }
+
+        public Task<UserRegistrationResponse> IsRegistrationViewModelValid(RegisterViewModel userForRegistration)
+        {
+            UserRegistrationResponse errorResponse = new UserRegistrationResponse();
+
+            if (string.IsNullOrEmpty(userForRegistration.UserName))
             {
-                Console.WriteLine($"Response: {registrationContent}");
-                var result = JsonSerializer.Deserialize<UserRegistrationErrorResponse>(registrationContent, _options);
-                return result;
+                errorResponse.errors.PersonalInfoName.Add("Username may not be null");
             }
-            return new UserRegistrationResponseDto { };
+
+            return Task.FromResult(errorResponse);
         }
     }
 }

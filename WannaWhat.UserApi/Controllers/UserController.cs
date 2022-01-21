@@ -27,16 +27,13 @@ namespace WannaWhat.UserApi.Controllers
             //var user = new WannaWhatUser { UserName = userForRegistration.UserName, Email = userForRegistration.Email };
             var user = new WannaWhatUser(userForRegistration);
 
-
+            UserRegistrationResponse response = new UserRegistrationResponse();
 
             var result = await _userManager.CreateAsync(user, userForRegistration.Password);
             if (!result.Succeeded)
             {
                 var errors = result.Errors.Select(e => e.Description);
-                var badReq = new UserRegistrationErrorResponse();
-                badReq.errors = new Errors();
-                badReq.errors.Email = errors.ToList();
-
+                response.errors.PersonalInfoName = errors.ToList();         // TODO: FIX        
 
                 return BadRequest();
             }
