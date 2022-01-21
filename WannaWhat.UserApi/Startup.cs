@@ -40,9 +40,12 @@ namespace WannaWhat.UserApi
                     });
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
-                builder.AllowAnyOrigin()
+                builder.WithOrigins(new string[] { "https://localhost:5001", "https://localhost:5002", "127.0.0.1:5002" })
                        .AllowAnyMethod()
                        .AllowAnyHeader();
+                //builder.AllowAnyOrigin()
+                //       .AllowAnyMethod()
+                //       .AllowAnyHeader();
             }));
 
             services.AddSignalR();
@@ -69,13 +72,13 @@ namespace WannaWhat.UserApi
                 app.UseSwaggerUI();
             }
 
-            app.UseCors("MyPolicy");
 
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
             app.UseStaticFiles();
+            app.UseCors("MyPolicy");
 
             app.UseAuthentication();
             app.UseAuthorization();
@@ -87,7 +90,7 @@ namespace WannaWhat.UserApi
                 //endpoints.MapBlazorHub();
             });
 
-            
+
         }
     }
 }

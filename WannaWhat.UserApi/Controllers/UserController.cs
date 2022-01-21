@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -39,6 +40,12 @@ namespace WannaWhat.UserApi.Controllers
             }
 
             return StatusCode(201);
+        }
+
+        [HttpGet("")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            return Ok(await _userManager.Users.ToListAsync());
         }
     }
 }
