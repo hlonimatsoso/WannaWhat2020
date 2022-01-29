@@ -17,12 +17,15 @@ namespace WannaWhat.IdentityServer.Services
         private readonly IUserClaimsPrincipalFactory<WannaWhatUser> _claimsFactory;
         private readonly UserManager<WannaWhatUser> _userManager;
         private readonly IRegistrationHelper _regHelper;
+        private readonly RoleManager<IdentityRole> _roleManager;
 
-        public WannaWhatProfileService(UserManager<WannaWhatUser> userManager, IUserClaimsPrincipalFactory<WannaWhatUser> claimsFactory, IRegistrationHelper regHelper)
+
+        public WannaWhatProfileService(UserManager<WannaWhatUser> userManager, RoleManager<IdentityRole> roleManager, IUserClaimsPrincipalFactory<WannaWhatUser> claimsFactory, IRegistrationHelper regHelper)
         {
             _userManager = userManager;
             _claimsFactory = claimsFactory;
             _regHelper = regHelper;
+            _roleManager = roleManager;
         }
 
         public async Task GetProfileDataAsync(ProfileDataRequestContext context)
@@ -36,6 +39,8 @@ namespace WannaWhat.IdentityServer.Services
 
             var claims = principal.Claims.ToList();
             claims = claims.Where(claim => context.RequestedClaimTypes.Contains(claim.Type)).ToList();
+
+            await this.AddRoleClaims(claims, user);
 
             // Add custom claims in token here based on user properties or any other source
             claims.Add(new Claim("is_active", user.IsActive.ToString() ?? "false"));
@@ -61,6 +66,22 @@ namespace WannaWhat.IdentityServer.Services
             }
 
             context.IssuedClaims = claims;
+        }
+
+        private async Task AddRoleClaims(List<Claim> claims, WannaWhatUser user)
+        {
+            var roles = await _userManager.GetRolesAsync(user);
+            if(roles != null && roles.Count > 0)
+            {
+                foreach (string role in roles)
+                {
+                    claims.Add(new Claim("Role",role));
+                    var roleClaims = await _roleManager.GetClaimsAsync(new IdentityRole(role));
+                    
+                    claims.AddRange(roleClaims);
+                }
+            }
+            //throw new NotImplementedException();
         }
 
         public async Task IsActiveAsync(IsActiveContext context)

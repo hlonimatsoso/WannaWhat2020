@@ -21,7 +21,7 @@ namespace WannaWhat.IdentityServer
 {
     public static class SeedData
     {
-    
+
         public static void SeedDatabase(this IApplicationBuilder app)
         {
             using (var scope = app.ApplicationServices.GetService<IServiceScopeFactory>().CreateScope())
@@ -29,10 +29,17 @@ namespace WannaWhat.IdentityServer
                 var context = scope.ServiceProvider.GetService<WannaWhatDbContext>();
                 context.Database.Migrate();
 
+                bool areRolesInitialized = SeedData.InitializeRoles(scope);
+
                 var userMgr = scope.ServiceProvider.GetRequiredService<UserManager<WannaWhatUser>>();
+
+
+
                 var alice = userMgr.FindByNameAsync("alice").Result;
+
                 if (alice == null)
                 {
+
                     alice = new WannaWhatUser
                     {
                         UserName = "alice",
@@ -43,6 +50,11 @@ namespace WannaWhat.IdentityServer
                     if (!result.Succeeded)
                     {
                         throw new Exception(result.Errors.First().Description);
+                    }
+
+                    if (areRolesInitialized)
+                    {
+                        userMgr.AddToRoleAsync(alice, Constatants.Roles_User);
                     }
 
                     result = userMgr.AddClaimsAsync(alice, new Claim[]{
@@ -168,7 +180,34 @@ namespace WannaWhat.IdentityServer
 
         }
 
-        
+        private static bool InitializeRoles(IServiceScope scope)
+        {
+            var roleMgr = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+            IdentityResult userRoleResult = new IdentityResult();
+            IdentityResult managerRoleResult = new IdentityResult();
+            IdentityResult adminRoleResult = new IdentityResult();
+
+
+            if (!roleMgr.RoleExistsAsync(Constatants.Roles_User).Result)
+            {
+                userRoleResult = roleMgr.CreateAsync(new IdentityRole(Constatants.Roles_User)).Result;
+
+            }
+
+            if (!roleMgr.RoleExistsAsync(Constatants.Roles_Manager).Result)
+            {
+                managerRoleResult = roleMgr.CreateAsync(new IdentityRole(Constatants.Roles_Manager)).Result;
+
+            }
+            if (!roleMgr.RoleExistsAsync(Constatants.Roles_Admin).Result)
+            {
+                adminRoleResult = roleMgr.CreateAsync(new IdentityRole(Constatants.Roles_Admin)).Result;
+
+            }
+
+            return userRoleResult.Succeeded && managerRoleResult.Succeeded && adminRoleResult.Succeeded;
+
+        }
 
         public static void InitializeDatabase(this IApplicationBuilder app)
         {
@@ -245,11 +284,11 @@ namespace WannaWhat.IdentityServer
 
                 Log.Warning("Migrating IDS Config...");
                 serviceScope.ServiceProvider.GetRequiredService<ConfigurationDbContext>().Database.Migrate();
-                
+
                 Log.Warning("Migrating Persisted Grants...");
                 serviceScope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
 
-          
+
 
             }
         }

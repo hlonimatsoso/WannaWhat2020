@@ -27,7 +27,7 @@ namespace WannaWhat.App.Services
             UserRegistrationResponse result = new UserRegistrationResponse();
             var content = JsonSerializer.Serialize(userForRegistration);
             var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
-            var registrationResult = await _client.PostAsync("api/user/registration", bodyContent);
+            var registrationResult = await _client.PostAsync("api/users/registration", bodyContent);
             var registrationContent = await registrationResult.Content.ReadAsStringAsync();
             Console.WriteLine($"registrationResult: {registrationResult}");
 

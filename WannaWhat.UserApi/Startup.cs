@@ -32,12 +32,15 @@ namespace WannaWhat.UserApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                    .AddJwtBearer(options =>
-                    {
-                        options.Authority = "https://localhost:5000";
-                        options.Audience = "userApi";
-                    });
+            services.AddAuthentication(o =>{
+                o.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                o.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.Authority = "https://localhost:5000";
+                options.Audience = "userApi";
+            });
             services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
             {
                 builder.WithOrigins(new string[] { "https://localhost:5001", "https://localhost:5002", "127.0.0.1:5002" })

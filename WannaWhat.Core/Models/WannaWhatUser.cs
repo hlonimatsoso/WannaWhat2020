@@ -15,7 +15,7 @@ namespace WannaWhat.Core.Models
 
         }
 
-        public WannaWhatUser(RegisterViewModel vm) 
+        public WannaWhatUser(RegisterViewModel vm)
         {
             this.UserName = vm.UserName;
             this.Email = vm.Email;
@@ -24,6 +24,7 @@ namespace WannaWhat.Core.Models
             this.UserInerests = new List<UserInterest>();
             this.UserPersonalities = new List<UserPersonality>();
             this.UserMoods = new List<UserMoods>();
+            this.Roles = new List<IdentityRole> { new IdentityRole { Name = Constatants.Roles_User } };
         }
 
         //[Key]
@@ -44,6 +45,7 @@ namespace WannaWhat.Core.Models
 
         public List<UserMoods> UserMoods { get; set; }
 
+        public List<IdentityRole> Roles { get; set; }
 
     }
 }

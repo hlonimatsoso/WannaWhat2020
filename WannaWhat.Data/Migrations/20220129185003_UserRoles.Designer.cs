@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using WannaWhat.Data;
 
 namespace WannaWhat.Data.Migrations
 {
     [DbContext(typeof(WannaWhatDbContext))]
-    partial class WannaWhatDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220129185003_UserRoles")]
+    partial class UserRoles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
