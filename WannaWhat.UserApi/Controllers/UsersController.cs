@@ -37,22 +37,26 @@ namespace WannaWhat.UserApi.Controllers
             var user = new WannaWhatUser(userForRegistration);
 
             UserRegistrationResponse response = new UserRegistrationResponse();
+            GeneralResponseDTO<bool> responseDto = new GeneralResponseDTO<bool>();
 
             var result = await _userManager.CreateAsync(user, userForRegistration.Password);
             if (!result.Succeeded)
             {
                 var errors = result.Errors.Select(e => e.Description);
                 response.errors.PersonalInfoName = errors.ToList();         // TODO: FIX        
-
-                return BadRequest(response);
+                responseDto.Payload = false;
+                responseDto.Errors = errors.ToList();
+                return BadRequest(responseDto);
             }
 
             await _userManager.AddToRoleAsync(user, Constatants.Roles_User);
 
+            responseDto.IsValid = true;
+            responseDto.Payload = true;
             response.IsValid = true;
             response.Status = 200;
 
-            return Ok(response);
+            return Ok(responseDto);
         }
 
         [HttpGet("")]
@@ -97,6 +101,39 @@ namespace WannaWhat.UserApi.Controllers
             {
                 result = BadRequest("No such user found.");
             }
+
+            return result;
+        }
+
+        [HttpGet("{username}/addRole/{roleName}")]
+        public async Task<IActionResult> AddRoleToUser([FromRoute] string username, [FromRoute] string roleName)
+        {
+            IActionResult result;
+            IdentityResult idResult = new IdentityResult();
+            GeneralResponseDTO<bool> response = new GeneralResponseDTO<bool>();
+            var user = await _userManager.FindByNameAsync(username);
+            IdentityRole role = await _roleManager.FindByNameAsync(roleName);
+            
+
+            if(role == null)
+            {
+                response.IsValid = false;
+                response.Description = "Role not found!";
+                return result = BadRequest(response);
+            }
+
+            if (user == null)
+            {
+               return result = BadRequest("No such user found.");
+            }
+            
+
+            idResult = await _userManager.AddToRoleAsync(user, role.Name);
+            response.IsValid = idResult.Succeeded;
+            response.Payload = idResult.Succeeded;
+            result = Ok(response);
+
+            
 
             return result;
         }

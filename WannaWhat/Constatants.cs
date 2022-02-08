@@ -15,6 +15,7 @@ namespace WannaWhat
         public static string Notificationhub_OnInboundMessage = "OnInboundMessage";
 
         public static string Roles_User = "User";
+        public static string Roles_DemoUser = "DemoUser";
         public static string Roles_Manager = "Manager";
         public static string Roles_Admin = "Admin";
 

@@ -191,6 +191,12 @@ namespace WannaWhat.IdentityServer
             if (!roleMgr.RoleExistsAsync(Constatants.Roles_User).Result)
             {
                 userRoleResult = roleMgr.CreateAsync(new IdentityRole(Constatants.Roles_User)).Result;
+                IdentityRole userRole =  roleMgr.FindByNameAsync(Constatants.Roles_User).Result;
+
+                userRoleResult = roleMgr.AddClaimAsync(userRole, new Claim("userapi.read", "true")).Result;
+                userRoleResult = roleMgr.AddClaimAsync(userRole, new Claim("userapi.write", "true")).Result;
+                userRoleResult = roleMgr.AddClaimAsync(userRole, new Claim("userapi.delete", "true")).Result;
+
 
             }
 

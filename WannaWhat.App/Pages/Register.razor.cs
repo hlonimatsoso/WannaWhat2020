@@ -34,7 +34,7 @@ namespace WannaWhat.App.Pages
         public async Task Register(MouseEventArgs e)
         {
             ShowRegistrationErrors = false;
-            UserRegistrationResponse result = await AuthenticationService.RegisterUser(VM);
+            GeneralResponseDTO<bool> result = await AuthenticationService.RegisterUser(VM);
             Console.WriteLine($"Register.registrationResult: {result}");
 
             if (result.IsValid)
@@ -45,19 +45,13 @@ namespace WannaWhat.App.Pages
             }
             else
             {
-                foreach (string error in result.errors.PersonalInfoName)
+                foreach (string error in result.Errors)
                 {
                     Errors.Add(error);
-                    Console.WriteLine($"Added name error: {error}");
+                    Console.WriteLine($"Added error: {error}");
 
                 }
 
-                foreach (string error in result.errors.PersonalInfoSurname)
-                {
-                    Errors.Add(error);
-                    Console.WriteLine($"Added last name error: {error}");
-
-                }
                 ShowRegistrationErrors = true;
                 Toaster.Add("Something bombed out chief", MatToastType.Danger, "Ooops!");
                 Console.WriteLine($"Register.Errors: {JsonSerializer.Serialize(Errors)}");

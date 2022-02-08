@@ -22,7 +22,7 @@ namespace WannaWhat.App.Services
             _client.BaseAddress = new Uri("https://localhost:5002/");
             _options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
         }
-        public async Task<UserRegistrationResponse> RegisterUser(RegisterViewModel userForRegistration)
+        public async Task<GeneralResponseDTO<bool>> RegisterUser(RegisterViewModel userForRegistration)
         {
             UserRegistrationResponse result = new UserRegistrationResponse();
             var content = JsonSerializer.Serialize(userForRegistration);
@@ -34,8 +34,8 @@ namespace WannaWhat.App.Services
             //if (!registrationResult.IsSuccessStatusCode)
             //{
             Console.WriteLine($"Response: {registrationContent}");
-            var resultDes = JsonSerializer.Deserialize<UserRegistrationResponse>(registrationContent, _options);
-            Console.WriteLine($"Response.resultDes {resultDes}");
+            var resultDes = JsonSerializer.Deserialize<GeneralResponseDTO<bool>>(registrationContent, _options);
+            Console.WriteLine($"Response deserialised: {resultDes}");
 
             return resultDes;
             //}
