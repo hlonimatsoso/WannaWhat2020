@@ -28,9 +28,9 @@ namespace WannaWhat.App.Pages
             }
         }
 
-        public List<string> Errors { get; set; }
-        [Inject]
-        protected IMatToaster Toaster { get; set; }
+        //public List<string> Errors { get; set; }
+        //[Inject]
+        //protected IMatToaster Toaster { get; set; }
         public async Task Register(MouseEventArgs e)
         {
             ShowRegistrationErrors = false;
@@ -81,7 +81,7 @@ namespace WannaWhat.App.Pages
         protected override void OnInitialized()
         {
             this.VM = new RegisterViewModel { };
-            this.Errors = new List<string>();
+            //this.Errors = new List<string>();
 
             base.OnInitialized();
         }

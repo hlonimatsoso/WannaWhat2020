@@ -8,66 +8,86 @@
 
 @inject AuthenticationStateProvider AuthenticationStateProvider
 
-<MatTabGroup>
-    <MatTab Label="Personal Info">
-        Personal Info
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Key</th>
-                    <th>Value</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var claim in this.AuthenticationStateProviderUser.Claims.GetPersonInfo())
-                {
-                    <tr>
-                        <td>@claim.Type</td>
-                        <td>@claim.Value</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </MatTab>
-    <MatTab Label="Personality">
-        Personality
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Key</th>
-                    <th>Value</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var claim in this.AuthenticationStateProviderUser.Claims.GetPersonalityInfo())
-                {
-                    <tr>
-                        <td>@claim.Type</td>
-                        <td>@claim.Value</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </MatTab>
-    <MatTab Label="Interests">
-        Interests
-    </MatTab>
-    <MatTab Label="Hobbies">
-        Hobbies
-    </MatTab>
-    <MatTab Label="General">
-        Religion etc
-    </MatTab>
-    <MatTab Label="Looking For">
-        Looking For
-    </MatTab>
-    <MatTab Label="Claims">
-        <section class="mb-4">
 
-            <h1 class="mb-4">Authentication State Provider</h1>
+<div class="mat-layout-grid">
+    <div class="mat-layout-grid-inner">
+        <div class="mat-layout-grid-cell">
 
-            <h2 class="mb-4">Hello, @this.AuthenticationStateProviderUser.Identity.Name!</h2>
+            <MatAccordion>
+                <MatExpansionPanel>
+                    <MatExpansionPanelSummary>
+                        <MatExpansionPanelHeader>Personal Details</MatExpansionPanelHeader>
+                        <MatExpansionPanelSubHeader>User name etc</MatExpansionPanelSubHeader>
+                    </MatExpansionPanelSummary>
+                    <MatExpansionPanelDetails>
+                        @foreach (var claim in this.AuthenticationStateProviderUser.Claims.GetPersonInfo())
+                        {
+                            <MatStringField ReadOnly="true" Value="@claim.Value" Label="@claim.Type"></MatStringField>
+                        }
+                    </MatExpansionPanelDetails>
+                </MatExpansionPanel>
+            </MatAccordion>
+        </div>
+        <div class="mat-layout-grid-cell">
 
+            <MatAccordion>
+                <MatExpansionPanel>
+                    <MatExpansionPanelSummary>
+                        <MatExpansionPanelHeader>Personality Details</MatExpansionPanelHeader>
+                        <MatExpansionPanelSubHeader>Loud, shy etc</MatExpansionPanelSubHeader>
+                    </MatExpansionPanelSummary>
+                    <MatExpansionPanelDetails>
+                        @foreach (var claim in this.AuthenticationStateProviderUser.Claims.GetPersonalityInfo())
+                        {
+                            <MatStringField ReadOnly="true" Value="@claim.Value" Label="@claim.Type"></MatStringField>
+                        }
+                    </MatExpansionPanelDetails>
+                </MatExpansionPanel>
+            </MatAccordion>
+        </div>
+        <div class="mat-layout-grid-cell">
+            <MatAccordion>
+                <MatExpansionPanel>
+                    <MatExpansionPanelSummary>
+                        <MatExpansionPanelHeader>Interests</MatExpansionPanelHeader>
+                        <MatExpansionPanelSubHeader>girls, boys, reading etc</MatExpansionPanelSubHeader>
+                    </MatExpansionPanelSummary>
+                    <MatExpansionPanelDetails>
+                        @foreach (var claim in this.AuthenticationStateProviderUser.Claims.GetInterestInfo())
+                        {
+                            <MatStringField ReadOnly="true" Value="@claim.Value" Label="@claim.Type"></MatStringField>
+                        }
+                    </MatExpansionPanelDetails>
+                </MatExpansionPanel>
+            </MatAccordion>
+        </div>
+        @*<div class="mat-layout-grid-cell">
+            <MatAccordion>
+                <MatExpansionPanel>
+                    <MatExpansionPanelSummary>
+                        <MatExpansionPanelHeader>Personality Details</MatExpansionPanelHeader>
+                        <MatExpansionPanelSubHeader>Loud, shy etc</MatExpansionPanelSubHeader>
+                    </MatExpansionPanelSummary>
+                    <MatExpansionPanelDetails>
+                        @foreach (var claim in this.AuthenticationStateProviderUser.Claims.GetPersonalityInfo())
+                        {
+                            <MatStringField ReadOnly="true" Value="@claim.Value" Label="@claim.Type"></MatStringField>
+                        }
+                    </MatExpansionPanelDetails>
+                </MatExpansionPanel>
+            </MatAccordion>
+        </div>*@
+    </div>
+</div>
+
+
+    <MatTabGroup>
+        <MatTab Label="Personal Info">
+            Personal Info
+            
+        </MatTab>
+        <MatTab Label="Personality">
+            Personality
             <table class="table">
                 <thead>
                     <tr>
@@ -76,7 +96,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var claim in this.AuthenticationStateProviderUser.Claims)
+                    @foreach (var claim in this.AuthenticationStateProviderUser.Claims.GetPersonalityInfo())
                     {
                         <tr>
                             <td>@claim.Type</td>
@@ -85,27 +105,64 @@
                     }
                 </tbody>
             </table>
+        </MatTab>
+        <MatTab Label="Interests">
+            Interests
+        </MatTab>
+        <MatTab Label="Hobbies">
+            Hobbies
+        </MatTab>
+        <MatTab Label="General">
+            Religion etc
+        </MatTab>
+        <MatTab Label="Looking For">
+            Looking For
+        </MatTab>
+        <MatTab Label="Claims">
+            <section class="mb-4">
 
-        </section>
-    </MatTab>
-</MatTabGroup>
+                <h1 class="mb-4">Authentication State Provider</h1>
+
+                <h2 class="mb-4">Hello, @this.AuthenticationStateProviderUser.Identity.Name!</h2>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Key</th>
+                            <th>Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var claim in this.AuthenticationStateProviderUser.Claims)
+                        {
+                            <tr>
+                                <td>@claim.Type</td>
+                                <td>@claim.Value</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+
+            </section>
+        </MatTab>
+    </MatTabGroup>
 
 
-@code {
-    [CascadingParameter]
-    private Task<AuthenticationState> authenticationStateTask { get; set; }
+    @code {
+        [CascadingParameter]
+        private Task<AuthenticationState> authenticationStateTask { get; set; }
 
-    private ClaimsPrincipal AuthenticationStateUser { get; set; }
-    private ClaimsPrincipal AuthenticationStateProviderUser { get; set; }
+        private ClaimsPrincipal AuthenticationStateUser { get; set; }
+        private ClaimsPrincipal AuthenticationStateProviderUser { get; set; }
 
-    protected override async Task OnParametersSetAsync()
-    {
-        AuthenticationState authenticationState;
+        protected override async Task OnParametersSetAsync()
+        {
+            AuthenticationState authenticationState;
 
-        authenticationState = await authenticationStateTask;
-        this.AuthenticationStateUser = authenticationState.User;
+            authenticationState = await authenticationStateTask;
+            this.AuthenticationStateUser = authenticationState.User;
 
-        authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
-        this.AuthenticationStateProviderUser = authenticationState.User;
+            authenticationState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+            this.AuthenticationStateProviderUser = authenticationState.User;
+        }
     }
-}

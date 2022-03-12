@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using MatBlazor;
+using Microsoft.AspNetCore.Components;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,19 @@ namespace WannaWhat.App.Pages
 
         [Parameter]
         public string Description { get; set; }
+
+        public List<string> Errors { get; set; }
+
+        [Inject]
+        protected IMatToaster Toaster { get; set; }
+
+
+        protected override void OnInitialized()
+        {
+            //this.VM = new RegisterViewModel { };
+            this.Errors = new List<string>();
+
+            base.OnInitialized();
+        }
     }
 }

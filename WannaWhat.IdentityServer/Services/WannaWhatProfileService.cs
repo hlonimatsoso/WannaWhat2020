@@ -51,8 +51,10 @@ namespace WannaWhat.IdentityServer.Services
                 claims.Add(new Claim("gender", userInfo.Gender.ToString()));
                 claims.Add(new Claim("dob", userInfo.DOB.ToString()));
                 claims.Add(new Claim("age", userInfo.Age.ToString()));
-                claims.Add(new Claim("fullName", userInfo.FullName.ToString()));
-                claims.Add(new Claim("surname", userInfo.Surname.ToString()));
+                if (userInfo.FullName != null)
+                    claims.Add(new Claim("fullName", userInfo.FullName.ToString()));
+                if (userInfo.Surname != null)
+                    claims.Add(new Claim("surname", userInfo.Surname.ToString()));
 
             }
 
@@ -73,14 +75,14 @@ namespace WannaWhat.IdentityServer.Services
         private async Task AddRoleClaims(List<Claim> claims, WannaWhatUser user)
         {
             var roles = await _userManager.GetRolesAsync(user);
-            if(roles != null && roles.Count > 0)
+            if (roles != null && roles.Count > 0)
             {
                 foreach (string role in roles)
                 {
-                    claims.Add(new Claim("Role",role));
+                    claims.Add(new Claim("Role", role));
                     IdentityRole r = await _roleManager.FindByNameAsync(role);
                     var roleClaims = await _roleManager.GetClaimsAsync(r);
-                    
+
                     claims.AddRange(roleClaims);
                 }
             }
